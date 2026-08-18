@@ -5,11 +5,12 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Plus, Edit, Eye, EyeOff } from 'lucide-react'
 import { ProductoToggle } from '@/components/admin/producto-toggle'
+import { ProductoDelete } from '@/components/admin/producto-delete'
 
 export default async function ProductosAdminPage() {
   const productos = await db.producto.findMany({
     orderBy: { creadoEn: 'desc' },
-    include: { categoria: true },
+    include: { categoria: true, _count: { select: { itemsPedido: true } } },
   })
 
   return (
@@ -77,13 +78,16 @@ export default async function ProductosAdminPage() {
                     <ProductoToggle id={p.id} activo={p.activo} />
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <Link
-                      href={`/admin/productos/${p.id}`}
-                      className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors"
-                    >
-                      <Edit className="h-3.5 w-3.5" />
-                      Editar
-                    </Link>
+                    <div className="flex items-center justify-end gap-1">
+                      <Link
+                        href={`/admin/productos/${p.id}`}
+                        className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors"
+                      >
+                        <Edit className="h-3.5 w-3.5" />
+                        Editar
+                      </Link>
+                      <ProductoDelete id={p.id} nombre={p.nombre} tienePedidos={p._count.itemsPedido > 0} />
+                    </div>
                   </td>
                 </tr>
               )

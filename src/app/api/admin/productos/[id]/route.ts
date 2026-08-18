@@ -136,10 +136,23 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
       return NextResponse.json({ error: 'ID inválido' }, { status: 400 })
     }
 
-    const producto = await db.producto.findUnique({ where: { id } })
+    const producto = await db.producto.findUnique({
+      where: { id },
+      include: { _count: { select: { itemsPedido: true } } },
+    })
     if (!producto) return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 })
 
-    await db.producto.update({ where: { id }, data: { activo: false } })
+    // Si el producto ya fue vendido, no se puede borrar sin romper el
+    // historial de pedidos — se desactiva en su lugar.
+    if (producto._count.itemsPedido > 0) {
+      return NextResponse.json(
+        { error: 'Este producto tiene pedidos asociados y no se puede eliminar. Desactivalo desde el interruptor de la lista en su lugar.' },
+        { status: 409 }
+      )
+    }
+
+    await db.variante.deleteMany({ where: { productoId: id } })
+    await db.producto.delete({ where: { id } })
     return NextResponse.json({ ok: true })
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
