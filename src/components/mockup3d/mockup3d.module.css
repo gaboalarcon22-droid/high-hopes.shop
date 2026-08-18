@@ -5,8 +5,8 @@
   --line: #2a323b;
   --text: #e8edf2;
   --muted: #93a0ad;
-  --accent: #2ea05a;
-  --accent-2: #38b96a;
+  --accent: #c6ff1a;
+  --accent-2: #d9ff5c;
   --ok: #3fbf6f;
   --warn: #e0a52b;
   --error: #e0594b;
@@ -25,7 +25,7 @@
 .canvasWrap {
   position: relative;
   height: 100%;
-  background: radial-gradient(circle at 50% 35%, #1a2129 0%, #0c0f12 75%);
+  background: radial-gradient(circle at 50% 35%, #f2f2f2 0%, #dcdcdc 75%);
 }
 .canvasWrap canvas { display: block; touch-action: none; }
 

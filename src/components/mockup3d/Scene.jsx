@@ -49,7 +49,8 @@ export default function Scene() {
       gl={{ preserveDrawingBuffer: true, antialias: true }}
       dpr={[1, 2]}
     >
-      <color attach="background" args={['#101418']} />
+      {/* Fondo tipo estudio fotográfico (claro) para que la prenda resalte sobre cualquier color */}
+      <color attach="background" args={['#e9e9e9']} />
 
       <ambientLight intensity={studioLight ? 0.55 : 0.3} />
       <directionalLight

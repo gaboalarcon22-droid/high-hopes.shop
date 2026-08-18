@@ -4,8 +4,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { formatPrecio } from '@/lib/utils'
 import { ProductoCard } from '@/components/tienda/producto-card'
-import { MessageCircle, ChevronLeft, Minus, Plus } from 'lucide-react'
+import { MessageCircle, ChevronLeft, Minus, Plus, Rotate3d, Image as ImageIcon } from 'lucide-react'
 import type { Producto, Categoria, Variante } from '@prisma/client'
+import { ProductMockupViewer } from '@/components/mockup3d/ProductMockupViewer'
 
 interface Props {
   producto: Producto & { categoria: Categoria; variantes: Variante[] }
@@ -15,6 +16,7 @@ interface Props {
 
 export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
   const [imagenActiva, setImagenActiva] = useState(0)
+  const [modo3D, setModo3D] = useState(false)
   const [varianteId, setVarianteId] = useState<string | undefined>()
   const [cantidad, setCantidad] = useState(1)
 
@@ -78,10 +80,28 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
           )}
           <div style={{
             position: 'relative', aspectRatio: '4/5', flex: 1, borderRadius: 12,
-            background: '#131313', border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
+            background: modo3D ? '#e9e9e9' : '#131313', border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            {imagenes[imagenActiva] ? (
+            {imagenes[imagenActiva] && (
+              <button
+                type="button"
+                onClick={() => setModo3D(m => !m)}
+                style={{
+                  position: 'absolute', top: 12, right: 12, zIndex: 5,
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  padding: '8px 14px', borderRadius: 999, border: 'none', cursor: 'pointer',
+                  background: modo3D ? '#0a0a0a' : '#c6ff1a',
+                  color: modo3D ? '#c6ff1a' : '#0a0a0a',
+                  fontSize: '0.78rem', fontWeight: 700,
+                }}
+              >
+                {modo3D ? <><ImageIcon size={14} /> Ver foto</> : <><Rotate3d size={14} /> Ver en 3D</>}
+              </button>
+            )}
+            {modo3D && imagenes[imagenActiva] ? (
+              <ProductMockupViewer imageUrl={imagenes[imagenActiva]} />
+            ) : imagenes[imagenActiva] ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={imagenes[imagenActiva]}
@@ -92,6 +112,15 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
               <svg style={{ width: 80, height: 80, color: '#333' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
+            )}
+            {modo3D && (
+              <span style={{
+                position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)',
+                fontSize: '0.72rem', color: '#555', background: 'rgba(255,255,255,0.7)',
+                padding: '4px 10px', borderRadius: 999, pointerEvents: 'none', whiteSpace: 'nowrap',
+              }}>
+                Arrastrá para rotar · Pellizcá para zoom
+              </span>
             )}
           </div>
         </div>

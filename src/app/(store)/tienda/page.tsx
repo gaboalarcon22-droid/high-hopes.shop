@@ -1,6 +1,5 @@
 import { db } from '@/lib/db'
 import { ProductoCard } from '@/components/tienda/producto-card'
-import { FiltrosCatalogo } from '@/components/tienda/filtros-catalogo'
 import { MobileFiltros } from '@/components/tienda/mobile-filtros'
 import Link from 'next/link'
 
@@ -43,15 +42,8 @@ export default async function TiendaPage({ searchParams }: Props) {
     <div style={{ minHeight: '100vh', background: '#0a0a0a' }}>
       <style>{`
         @media (max-width: 768px) {
-          .filtros-sidebar { display: none !important; }
-          .mobile-filtros-wrap { display: block !important; }
-          .tienda-layout { flex-direction: column !important; }
           .tienda-content { padding: 0 14px 48px !important; }
           .cat-pills-wrap { padding: 0 14px !important; }
-        }
-        @media (min-width: 769px) {
-          .mobile-filtros-wrap { display: none !important; }
-          .cat-pills-mobile { display: none !important; }
         }
         .cat-pills-scroll {
           display: flex;
@@ -122,7 +114,7 @@ export default async function TiendaPage({ searchParams }: Props) {
             </h1>
           ) : (
             <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-              Equipamiento <span style={{ color: '#c6ff1a' }}>Profesional</span>
+              Vestí lo que <span style={{ color: '#c6ff1a' }}>imaginás</span>
             </h1>
           )}
           {q && (
@@ -147,69 +139,47 @@ export default async function TiendaPage({ searchParams }: Props) {
         </div>
       </div>
 
-      {/* Contenido */}
+      {/* Contenido — 100% grilla, sin sidebar */}
       <div className="tienda-content" style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 28px 80px' }}>
-        <div className="tienda-layout" style={{ display: 'flex', gap: 36, alignItems: 'flex-start' }}>
 
-          {/* Sidebar filtros — solo desktop */}
-          <aside className="filtros-sidebar" style={{
-            width: 210, flexShrink: 0,
-            position: 'sticky', top: 90,
-            background: '#111111',
-            border: '1px solid rgba(255,255,255,0.07)',
-            borderRadius: 14,
-            padding: '22px 16px',
-          }}>
-            <FiltrosCatalogo
-              categorias={categorias}
-              categoriaActiva={cat}
-              ordenActivo={orden}
-            />
-          </aside>
+        {/* Búsqueda + orden, visible en todos los tamaños */}
+        <MobileFiltros
+          categorias={categorias}
+          categoriaActiva={cat}
+          ordenActivo={orden}
+        />
 
-          {/* Grid productos */}
-          <div style={{ flex: 1, minWidth: 0 }}>
-
-            {/* Mobile: filtros adicionales (orden + búsqueda) */}
-            <MobileFiltros
-              categorias={categorias}
-              categoriaActiva={cat}
-              ordenActivo={orden}
-            />
-
-            {/* Barra de resultados */}
-            <div className="sort-bar">
-              <p className="sort-bar-count">
-                {productos.length === 0
-                  ? 'Sin resultados'
-                  : `${productos.length} producto${productos.length !== 1 ? 's' : ''}`}
-                {categoriaActiva && <span style={{ color: '#c6ff1a' }}> · {categoriaActiva.nombre}</span>}
-                {q && <span> · &quot;{q}&quot;</span>}
-              </p>
-              {(cat || q) && (
-                <Link href="/tienda" className="limpiar-filtros-link">
-                  Limpiar filtros ×
-                </Link>
-              )}
-            </div>
-
-            {productos.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '80px 0' }}>
-                <div style={{ fontSize: 52, marginBottom: 16 }}>🔍</div>
-                <p style={{ fontSize: '1rem', color: '#666', marginBottom: 16 }}>No se encontraron productos.</p>
-                <Link href="/tienda" style={{ fontSize: '0.87rem', color: '#c6ff1a', textDecoration: 'none', fontWeight: 600 }}>
-                  Ver todos los productos →
-                </Link>
-              </div>
-            ) : (
-              <div className="productos-grid">
-                {productos.map(p => (
-                  <ProductoCard key={p.id} producto={p} />
-                ))}
-              </div>
-            )}
-          </div>
+        {/* Barra de resultados */}
+        <div className="sort-bar">
+          <p className="sort-bar-count">
+            {productos.length === 0
+              ? 'Sin resultados'
+              : `${productos.length} producto${productos.length !== 1 ? 's' : ''}`}
+            {categoriaActiva && <span style={{ color: '#c6ff1a' }}> · {categoriaActiva.nombre}</span>}
+            {q && <span> · &quot;{q}&quot;</span>}
+          </p>
+          {(cat || q) && (
+            <Link href="/tienda" className="limpiar-filtros-link">
+              Limpiar filtros ×
+            </Link>
+          )}
         </div>
+
+        {productos.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '80px 0' }}>
+            <div style={{ fontSize: 52, marginBottom: 16 }}>🔍</div>
+            <p style={{ fontSize: '1rem', color: '#666', marginBottom: 16 }}>No se encontraron productos.</p>
+            <Link href="/tienda" style={{ fontSize: '0.87rem', color: '#c6ff1a', textDecoration: 'none', fontWeight: 600 }}>
+              Ver todos los productos →
+            </Link>
+          </div>
+        ) : (
+          <div className="productos-grid">
+            {productos.map(p => (
+              <ProductoCard key={p.id} producto={p} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

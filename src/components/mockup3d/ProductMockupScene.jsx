@@ -1,0 +1,125 @@
+'use client';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, ContactShadows, Center, Html, useGLTF, Decal } from '@react-three/drei';
+import * as THREE from 'three';
+import { getGarment, ZONE_ANCHORS } from '@/lib/mockup3d/garments';
+
+useGLTF.preload('/mockup3d/models/tshirt.glb');
+
+function useImageTexture(url) {
+  const [texture, setTexture] = useState(null);
+  useEffect(() => {
+    if (!url) { setTexture(null); return; }
+    let active = true;
+    new THREE.TextureLoader().load(url, (t) => {
+      if (!active) return;
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = 16;
+      setTexture(t);
+    });
+    return () => { active = false; };
+  }, [url]);
+  return texture;
+}
+
+function Loader() {
+  return (
+    <Html center>
+      <div style={{ color: '#888', fontSize: 13, whiteSpace: 'nowrap' }}>Cargando vista 3D…</div>
+    </Html>
+  );
+}
+
+function ProductShirt({ decalUrl, garmentColor }) {
+  const garment = getGarment('premium-241');
+  const { nodes, materials } = useGLTF(garment.model);
+  const texture = useImageTexture(decalUrl);
+  const target = useRef(new THREE.Color(garmentColor));
+
+  useEffect(() => { target.current.set(garmentColor); }, [garmentColor]);
+  useFrame((_, delta) => {
+    const mat = materials.lambert1;
+    if (mat?.color) {
+      mat.color.lerp(target.current, Math.min(1, delta * 8));
+      mat.roughness = 0.85;
+      mat.metalness = 0;
+    }
+  });
+
+  const a = ZONE_ANCHORS.front;
+  const im = texture?.image;
+  const aspect = im && im.height ? im.width / im.height : 1;
+  const sx = a.defScale * 1.35;
+  const sy = sx / aspect;
+
+  return (
+    <mesh
+      castShadow
+      receiveShadow
+      geometry={nodes.T_Shirt_male.geometry}
+      material={materials.lambert1}
+      material-roughness={0.85}
+      dispose={null}
+    >
+      {texture && (
+        <Decal position={a.pos} rotation={[0, a.rotY, 0]} scale={[sx, sy, Math.max(sx, sy, 0.2)]}>
+          <meshStandardMaterial
+            map={texture}
+            transparent
+            alphaTest={0.02}
+            roughness={0.92}
+            metalness={0}
+            polygonOffset
+            polygonOffsetFactor={-10}
+            toneMapped
+          />
+        </Decal>
+      )}
+    </mesh>
+  );
+}
+
+export default function ProductMockupScene({ imageUrl, garmentColor = '#f3f3f3' }) {
+  const controlsRef = useRef();
+
+  // El canvas de R3F a veces mide 0 en su primer render (recién montado en un
+  // contenedor que todavía no tiene layout final); forzamos un remeasure.
+  useEffect(() => {
+    const ids = [50, 250, 600].map((ms) => setTimeout(() => window.dispatchEvent(new Event('resize')), ms));
+    return () => ids.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <Canvas
+      shadows
+      camera={{ position: [0, 0, 2.6], fov: 25 }}
+      gl={{ antialias: true }}
+      dpr={[1, 2]}
+    >
+      <color attach="background" args={['#e9e9e9']} />
+
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[3, 4, 5]} intensity={1.3} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
+      <directionalLight position={[-4, 2, -3]} intensity={0.6} />
+      <directionalLight position={[0, 3, -5]} intensity={0.5} />
+
+      <Suspense fallback={<Loader />}>
+        <Center>
+          <ProductShirt decalUrl={imageUrl} garmentColor={garmentColor} />
+        </Center>
+      </Suspense>
+
+      <ContactShadows position={[0, -0.62, 0]} opacity={0.35} scale={4} blur={2.4} far={1.2} resolution={512} color="#000000" />
+
+      <OrbitControls
+        ref={controlsRef}
+        enablePan={false}
+        minDistance={1.6}
+        maxDistance={4}
+        minPolarAngle={Math.PI / 3}
+        maxPolarAngle={Math.PI / 1.8}
+      />
+    </Canvas>
+  );
+}
