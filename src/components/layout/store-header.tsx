@@ -59,14 +59,14 @@ export function StoreHeader() {
           text-decoration: none;
           transition: background 0.2s, border-color 0.2s, color 0.2s;
         }
-        .cart-btn:hover { background: rgba(46,160,90,0.12); border-color: rgba(46,160,90,0.3); color: #2ea05a; }
+        .cart-btn:hover { background: rgba(198,255,26,0.12); border-color: rgba(198,255,26,0.3); color: #c6ff1a; }
         .cart-badge {
           position: absolute;
           top: -6px;
           right: -6px;
           min-width: 18px;
           height: 18px;
-          background: #2ea05a;
+          background: #c6ff1a;
           color: #fff;
           font-size: 10px;
           font-weight: 800;
@@ -84,7 +84,7 @@ export function StoreHeader() {
         <div className="store-nav-inner">
 
           <Link href="/tienda" className="store-nav-logo">
-            <span style={{ color: '#fff' }}>High<span style={{ color: '#2ea05a' }}> Store</span></span>
+            <span style={{ color: '#fff', fontFamily: 'var(--font-display)', letterSpacing: '0.02em' }}>High<span style={{ color: '#c6ff1a' }}> Hopes</span></span>
           </Link>
 
           <nav className="store-nav-links">

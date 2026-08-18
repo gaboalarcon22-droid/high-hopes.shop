@@ -41,13 +41,13 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
       {/* Breadcrumb */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#888', marginBottom: 32 }}>
         <Link href="/tienda" style={{ color: '#888', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#2ea05a')}
+          onMouseEnter={e => (e.currentTarget.style.color = '#c6ff1a')}
           onMouseLeave={e => (e.currentTarget.style.color = '#888')}>
           <ChevronLeft style={{ width: 15, height: 15 }} /> Tienda
         </Link>
         <span style={{ color: '#444' }}>/</span>
         <Link href={`/tienda?cat=${producto.categoria.slug}`} style={{ color: '#888', textDecoration: 'none' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#2ea05a')}
+          onMouseEnter={e => (e.currentTarget.style.color = '#c6ff1a')}
           onMouseLeave={e => (e.currentTarget.style.color = '#888')}>
           {producto.categoria.nombre}
         </Link>
@@ -66,7 +66,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
                   onClick={() => setImagenActiva(i)}
                   style={{
                     flexShrink: 0, width: 76, aspectRatio: '4/5', borderRadius: 8, overflow: 'hidden',
-                    border: `2px solid ${imagenActiva === i ? '#2ea05a' : 'rgba(255,255,255,0.1)'}`,
+                    border: `2px solid ${imagenActiva === i ? '#c6ff1a' : 'rgba(255,255,255,0.1)'}`,
                     background: '#131313', cursor: 'pointer', padding: 0,
                   }}
                 >
@@ -102,8 +102,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
           <span style={{
             display: 'inline-block', width: 'fit-content', marginBottom: 12,
             padding: '4px 12px', borderRadius: 999,
-            background: 'rgba(46,160,90,0.12)', border: '1px solid rgba(46,160,90,0.25)',
-            color: '#2ea05a', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.03em',
+            background: 'rgba(198,255,26,0.12)', border: '1px solid rgba(198,255,26,0.25)',
+            color: '#c6ff1a', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.03em',
           }}>
             {producto.categoria.nombre}
           </span>
@@ -131,8 +131,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
           {/* Stock */}
           <div style={{ marginBottom: 20 }}>
             {producto.stock > 0 ? (
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.9rem', color: '#2ea05a', fontWeight: 600 }}>
-                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#2ea05a', flexShrink: 0 }} />
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.9rem', color: '#c6ff1a', fontWeight: 600 }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#c6ff1a', flexShrink: 0 }} />
                 En stock ({producto.stock} disponibles)
               </span>
             ) : (
@@ -157,9 +157,9 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
                     style={{
                       padding: '6px 14px', borderRadius: 8, fontSize: '0.88rem', fontWeight: 600,
                       cursor: 'pointer', transition: 'all 0.2s',
-                      border: `2px solid ${varianteId === v.id ? '#2ea05a' : 'rgba(255,255,255,0.12)'}`,
-                      background: varianteId === v.id ? 'rgba(46,160,90,0.12)' : 'transparent',
-                      color: varianteId === v.id ? '#2ea05a' : '#ccc',
+                      border: `2px solid ${varianteId === v.id ? '#c6ff1a' : 'rgba(255,255,255,0.12)'}`,
+                      background: varianteId === v.id ? 'rgba(198,255,26,0.12)' : 'transparent',
+                      color: varianteId === v.id ? '#c6ff1a' : '#ccc',
                     }}
                   >
                     {v.valor}

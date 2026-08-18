@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0a0a0a' }}>
+    <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
       <StoreHeader />
       <main style={{ flex: 1, paddingTop: '72px' }}>
         {children}
@@ -18,7 +18,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
             {/* Brand */}
             <div>
               <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff', marginBottom: 12 }}>
-                High<span style={{ color: '#2ea05a' }}> Hopes</span>
+                High<span style={{ color: '#c6ff1a' }}> Hopes</span>
               </div>
               <p style={{ fontSize: '0.87rem', color: '#888', lineHeight: 1.7 }}>
                 Remeras, buzos y estampas personalizadas — diseñá tu mockup 3D en tiempo real.
@@ -111,7 +111,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
           text-decoration: none;
           transition: color 0.2s;
         }
-        .footer-link:hover { color: #2ea05a; }
+        .footer-link:hover { color: #c6ff1a; }
         .footer-legal-link {
           font-size: 0.8rem;
           color: #555;
@@ -163,14 +163,14 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
           gap: 8px;
           padding: 9px 18px;
           border-radius: 10px;
-          background: #1a6b3f;
+          background: #1e7a4a;
           color: #fff;
           font-size: 0.85rem;
           font-weight: 600;
           text-decoration: none;
           transition: background 0.2s;
         }
-        .footer-wa-btn:hover { background: #2ea05a; }
+        .footer-wa-btn:hover { background: #25d366; }
       `}</style>
     </div>
   )

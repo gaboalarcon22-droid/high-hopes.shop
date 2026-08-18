@@ -79,7 +79,7 @@ export default async function TiendaPage({ searchParams }: Props) {
           background: rgba(255,255,255,0.04);
         }
         .cat-pill:hover { color: #fff; border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); }
-        .cat-pill.active { background: #1a6b3f; border-color: #2ea05a; color: #fff; }
+        .cat-pill.active { background: #c6ff1a; border-color: #c6ff1a; color: #0a0a0a; }
         .productos-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -107,7 +107,7 @@ export default async function TiendaPage({ searchParams }: Props) {
       <div style={{ position: 'relative', overflow: 'hidden', paddingTop: 32, paddingBottom: 28, textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{
           position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(46,160,90,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(46,160,90,0.03) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(198,255,26,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(198,255,26,0.03) 1px, transparent 1px)',
           backgroundSize: '64px 64px', pointerEvents: 'none',
         }} />
         <div style={{
@@ -122,7 +122,7 @@ export default async function TiendaPage({ searchParams }: Props) {
             </h1>
           ) : (
             <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-              Equipamiento <span style={{ color: '#2ea05a' }}>Profesional</span>
+              Equipamiento <span style={{ color: '#c6ff1a' }}>Profesional</span>
             </h1>
           )}
           {q && (
@@ -183,7 +183,7 @@ export default async function TiendaPage({ searchParams }: Props) {
                 {productos.length === 0
                   ? 'Sin resultados'
                   : `${productos.length} producto${productos.length !== 1 ? 's' : ''}`}
-                {categoriaActiva && <span style={{ color: '#2ea05a' }}> · {categoriaActiva.nombre}</span>}
+                {categoriaActiva && <span style={{ color: '#c6ff1a' }}> · {categoriaActiva.nombre}</span>}
                 {q && <span> · &quot;{q}&quot;</span>}
               </p>
               {(cat || q) && (
@@ -197,7 +197,7 @@ export default async function TiendaPage({ searchParams }: Props) {
               <div style={{ textAlign: 'center', padding: '80px 0' }}>
                 <div style={{ fontSize: 52, marginBottom: 16 }}>🔍</div>
                 <p style={{ fontSize: '1rem', color: '#666', marginBottom: 16 }}>No se encontraron productos.</p>
-                <Link href="/tienda" style={{ fontSize: '0.87rem', color: '#2ea05a', textDecoration: 'none', fontWeight: 600 }}>
+                <Link href="/tienda" style={{ fontSize: '0.87rem', color: '#c6ff1a', textDecoration: 'none', fontWeight: 600 }}>
                   Ver todos los productos →
                 </Link>
               </div>

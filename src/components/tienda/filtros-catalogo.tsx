@@ -40,8 +40,8 @@ function FilterBtn({ active, onClick, children }: { active: boolean; onClick: ()
         border: 'none',
         cursor: 'pointer',
         transition: 'background 0.2s, color 0.2s',
-        background: active ? '#1a6b3f' : 'transparent',
-        color: active ? '#fff' : '#888',
+        background: active ? '#c6ff1a' : 'transparent',
+        color: active ? '#0a0a0a' : '#888',
       }}
     >
       {children}
@@ -85,7 +85,7 @@ export function FiltrosCatalogo({ categorias, categoriaActiva, ordenActivo }: Pr
               outline: 'none',
               transition: 'border-color 0.2s',
             }}
-            onFocus={e => (e.currentTarget.style.borderColor = '#2ea05a')}
+            onFocus={e => (e.currentTarget.style.borderColor = '#c6ff1a')}
             onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}
           />
         </form>

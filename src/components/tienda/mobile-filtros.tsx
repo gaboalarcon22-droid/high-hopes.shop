@@ -41,9 +41,9 @@ export function MobileFiltros({ categorias, categoriaActiva, ordenActivo }: Prop
         style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '10px 18px', borderRadius: 10,
-          background: open ? '#1a6b3f' : '#111111',
-          border: `1px solid ${open ? '#1a6b3f' : 'rgba(255,255,255,0.1)'}`,
-          color: open ? '#fff' : '#ccc',
+          background: open ? '#c6ff1a' : '#111111',
+          border: `1px solid ${open ? '#c6ff1a' : 'rgba(255,255,255,0.1)'}`,
+          color: open ? '#0a0a0a' : '#ccc',
           fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer',
           transition: 'all 0.2s',
         }}
@@ -51,7 +51,7 @@ export function MobileFiltros({ categorias, categoriaActiva, ordenActivo }: Prop
         <SlidersHorizontal size={16} />
         Filtros
         {(tieneFiltroCat || tieneOrden) && (
-          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#2ea05a', flexShrink: 0 }} />
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#c6ff1a', flexShrink: 0 }} />
         )}
         {open ? <X size={14} /> : <span style={{ fontSize: '0.7rem' }}>▼</span>}
       </button>
@@ -83,7 +83,7 @@ export function MobileFiltros({ categorias, categoriaActiva, ordenActivo }: Prop
                 borderRadius: 10, padding: '10px 14px',
                 fontSize: '0.87rem', color: '#fff', outline: 'none',
               }}
-              onFocus={e => (e.currentTarget.style.borderColor = '#2ea05a')}
+              onFocus={e => (e.currentTarget.style.borderColor = '#c6ff1a')}
               onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}
             />
           </form>
@@ -104,8 +104,8 @@ export function MobileFiltros({ categorias, categoriaActiva, ordenActivo }: Prop
                   padding: '8px 18px', borderRadius: 999,
                   fontSize: '0.84rem', fontWeight: 600,
                   border: 'none', cursor: 'pointer',
-                  background: !categoriaActiva ? '#1a6b3f' : '#1c1c1c',
-                  color: !categoriaActiva ? '#fff' : '#888',
+                  background: !categoriaActiva ? '#c6ff1a' : '#1c1c1c',
+                  color: !categoriaActiva ? '#0a0a0a' : '#888',
                   transition: 'all 0.15s',
                 }}
               >
@@ -119,8 +119,8 @@ export function MobileFiltros({ categorias, categoriaActiva, ordenActivo }: Prop
                     padding: '8px 18px', borderRadius: 999,
                     fontSize: '0.84rem', fontWeight: 600,
                     border: 'none', cursor: 'pointer',
-                    background: categoriaActiva === cat.slug ? '#1a6b3f' : '#1c1c1c',
-                    color: categoriaActiva === cat.slug ? '#fff' : '#888',
+                    background: categoriaActiva === cat.slug ? '#c6ff1a' : '#1c1c1c',
+                    color: categoriaActiva === cat.slug ? '#0a0a0a' : '#888',
                     transition: 'all 0.15s',
                   }}
                 >
@@ -149,8 +149,8 @@ export function MobileFiltros({ categorias, categoriaActiva, ordenActivo }: Prop
                     padding: '8px 18px', borderRadius: 999,
                     fontSize: '0.84rem', fontWeight: 600,
                     border: 'none', cursor: 'pointer',
-                    background: (ordenActivo ?? '') === op.value ? '#1a6b3f' : '#1c1c1c',
-                    color: (ordenActivo ?? '') === op.value ? '#fff' : '#888',
+                    background: (ordenActivo ?? '') === op.value ? '#c6ff1a' : '#1c1c1c',
+                    color: (ordenActivo ?? '') === op.value ? '#0a0a0a' : '#888',
                     transition: 'all 0.15s',
                   }}
                 >
