@@ -1,0 +1,150 @@
+// High Hopes Store — Schema Prisma 7
+// CRÍTICO: url NO va aquí → va en prisma.config.ts
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─── AUTENTICACIÓN ────────────────────────────────────────────────
+
+model Usuario {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  nombre      String
+  rol         String   @default("OPERADOR") // ADMIN | OPERADOR
+  activo      Boolean  @default(true)
+  creadoEn    DateTime @default(now())
+  sesiones    Sesion[]
+}
+
+model Sesion {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  usuarioId String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  expiresAt DateTime
+  creadoEn  DateTime @default(now())
+}
+
+// ─── CATÁLOGO ─────────────────────────────────────────────────────
+
+model Categoria {
+  id          String     @id @default(cuid())
+  nombre      String     @unique
+  slug        String     @unique
+  descripcion String?
+  icono       String?    // emoji o nombre de ícono
+  orden       Int        @default(0)
+  activa      Boolean    @default(true)
+  productos   Producto[]
+  creadoEn    DateTime   @default(now())
+}
+
+model Producto {
+  id              String          @id @default(cuid())
+  nombre          String
+  slug            String          @unique
+  descripcion     String?
+  descripcionCorta String?
+  precio          Float
+  precioAnterior  Float?          // para mostrar descuento
+  stock           Int             @default(0)
+  stockMinimo     Int             @default(5)
+  sku             String?         @unique
+  marca           String?
+  imagenes        String          @default("[]") // JSON array de URLs
+  destacado       Boolean         @default(false)
+  activo          Boolean         @default(true)
+  categoriaId     String
+  categoria       Categoria       @relation(fields: [categoriaId], references: [id])
+  variantes       Variante[]
+  itemsPedido     ItemPedido[]
+  tags            String          @default("[]") // JSON array
+  peso            Float?          // kg, para cálculo envío
+  dimensiones     String?         // JSON {alto, ancho, profundo}
+  creadoEn        DateTime        @default(now())
+  actualizadoEn   DateTime        @updatedAt
+}
+
+model Variante {
+  id          String       @id @default(cuid())
+  productoId  String
+  producto    Producto     @relation(fields: [productoId], references: [id])
+  nombre      String       // "Capacidad", "Potencia", "Color"
+  valor       String       // "500ml", "600W", "Negro"
+  precio      Float?       // sobreprecio, null = mismo precio base
+  stock       Int          @default(0)
+  sku         String?
+  activa      Boolean      @default(true)
+  itemsPedido ItemPedido[]
+}
+
+// ─── PEDIDOS ──────────────────────────────────────────────────────
+
+model Cliente {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  nombre    String
+  telefono  String?
+  empresa   String?
+  pedidos   Pedido[]
+  creadoEn  DateTime  @default(now())
+}
+
+model Pedido {
+  id              String       @id @default(cuid())
+  numero          Int          @unique @default(0)
+  clienteId       String
+  cliente         Cliente      @relation(fields: [clienteId], references: [id])
+  estado          String       @default("PENDIENTE") // PENDIENTE | CONFIRMADO | PREPARANDO | ENVIADO | ENTREGADO | CANCELADO
+  metodoPago      String?      // MERCADOPAGO | TRANSFERENCIA | WHATSAPP | EFECTIVO
+  estadoPago      String       @default("PENDIENTE") // PENDIENTE | APROBADO | RECHAZADO
+  mpPaymentId     String?      // ID pago MercadoPago
+  total           Float
+  subtotal        Float
+  costoEnvio      Float        @default(0)
+  descuento       Float        @default(0)
+  notas           String?
+  direccionEnvio  String?      // JSON con dirección
+  items           ItemPedido[]
+  historial       HistorialPedido[]
+  creadoEn        DateTime     @default(now())
+  actualizadoEn   DateTime     @updatedAt
+}
+
+model ItemPedido {
+  id          String    @id @default(cuid())
+  pedidoId    String
+  pedido      Pedido    @relation(fields: [pedidoId], references: [id])
+  productoId  String
+  producto    Producto  @relation(fields: [productoId], references: [id])
+  varianteId  String?
+  variante    Variante? @relation(fields: [varianteId], references: [id])
+  cantidad    Int
+  precioUnit  Float
+  subtotal    Float
+  nombreSnap  String    // snapshot nombre al momento de compra
+  creadoEn    DateTime  @default(now())
+}
+
+model HistorialPedido {
+  id        String   @id @default(cuid())
+  pedidoId  String
+  pedido    Pedido   @relation(fields: [pedidoId], references: [id])
+  estado    String
+  nota      String?
+  creadoEn  DateTime @default(now())
+}
+
+// ─── CONFIGURACIÓN ────────────────────────────────────────────────
+
+model Configuracion {
+  id    String @id @default(cuid())
+  clave String @unique
+  valor String
+}
