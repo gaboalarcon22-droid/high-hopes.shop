@@ -7,6 +7,7 @@ import { ProductoCard } from '@/components/tienda/producto-card'
 import { MessageCircle, ChevronLeft, Minus, Plus, Rotate3d, Image as ImageIcon } from 'lucide-react'
 import type { Producto, Categoria, Variante } from '@prisma/client'
 import { ProductMockupViewer } from '@/components/mockup3d/ProductMockupViewer'
+import type { Mockup3DConfig } from '@/components/mockup3d/Mockup3DModal'
 
 interface Props {
   producto: Producto & { categoria: Categoria; variantes: Variante[] }
@@ -17,6 +18,7 @@ interface Props {
 export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
   const [imagenActiva, setImagenActiva] = useState(0)
   const [modo3D, setModo3D] = useState(false)
+  const mockup3d: Mockup3DConfig | null = producto.mockup3d ? JSON.parse(producto.mockup3d) : null
   const [varianteId, setVarianteId] = useState<string | undefined>()
   const [cantidad, setCantidad] = useState(1)
 
@@ -83,7 +85,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
             background: modo3D ? '#e9e9e9' : '#131313', border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            {imagenes[imagenActiva] && (
+            {mockup3d && (
               <button
                 type="button"
                 onClick={() => setModo3D(m => !m)}
@@ -99,8 +101,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
                 {modo3D ? <><ImageIcon size={14} /> Ver foto</> : <><Rotate3d size={14} /> Ver en 3D</>}
               </button>
             )}
-            {modo3D && imagenes[imagenActiva] ? (
-              <ProductMockupViewer imageUrl={imagenes[imagenActiva]} />
+            {modo3D && mockup3d ? (
+              <ProductMockupViewer config={mockup3d} />
             ) : imagenes[imagenActiva] ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img

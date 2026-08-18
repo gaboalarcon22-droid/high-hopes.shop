@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import type { Mockup3DConfig } from './Mockup3DModal'
 
 const ProductMockupScene = dynamic(() => import('./ProductMockupScene'), {
   ssr: false,
@@ -12,10 +13,9 @@ const ProductMockupScene = dynamic(() => import('./ProductMockupScene'), {
 })
 
 interface Props {
-  imageUrl: string
-  garmentColor?: string
+  config: Mockup3DConfig
 }
 
-export function ProductMockupViewer({ imageUrl, garmentColor }: Props) {
-  return <ProductMockupScene imageUrl={imageUrl} garmentColor={garmentColor} />
+export function ProductMockupViewer({ config }: Props) {
+  return <ProductMockupScene config={config} />
 }

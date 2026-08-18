@@ -146,10 +146,25 @@ export default function Mockup3DStudio({ onUseImage, initialColor }) {
   const useAsProductImage = useCallback(() => {
     const dataUrl = captureCanvasDataUrl();
     if (!dataUrl || !onUseImage) return;
-    onUseImage(dataUrl);
+    // Config real del mockup (no la foto plana) para reconstruir el 3D
+    // exacto en la tienda: prenda, color, la estampa ya procesada
+    // (transparente) y su transform dentro de la zona activa.
+    const config = z.decalUrl
+      ? {
+          garmentId,
+          shirtColor,
+          zone: activeZone,
+          decalUrl: z.decalUrl,
+          scale: z.scale,
+          offsetX: z.offsetX,
+          offsetY: z.offsetY,
+          rotation: z.rotation,
+        }
+      : null;
+    onUseImage(dataUrl, config);
     setUsedMsg('✓ Imagen agregada al producto');
     setTimeout(() => setUsedMsg(''), 3000);
-  }, [captureCanvasDataUrl, onUseImage]);
+  }, [captureCanvasDataUrl, onUseImage, garmentId, shirtColor, activeZone, z.decalUrl, z.scale, z.offsetX, z.offsetY, z.rotation]);
 
   const zoneSlug = (id) => (ZONES.find((x) => x.id === id)?.label || id).toLowerCase().replace(/\s+/g, '-');
 

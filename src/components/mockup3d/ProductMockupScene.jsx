@@ -31,13 +31,16 @@ function Loader() {
   );
 }
 
-function ProductShirt({ decalUrl, garmentColor }) {
-  const garment = getGarment('premium-241');
+// Reconstruye el mockup exactamente como quedó en el estudio: misma prenda,
+// mismo color, misma estampa (ya procesada/transparente) y mismo
+// transform (scale/offset/rotation) dentro de la zona donde se armó.
+function ProductShirt({ config }) {
+  const garment = getGarment(config.garmentId);
   const { nodes, materials } = useGLTF(garment.model);
-  const texture = useImageTexture(decalUrl);
-  const target = useRef(new THREE.Color(garmentColor));
+  const texture = useImageTexture(config.decalUrl);
+  const target = useRef(new THREE.Color(config.shirtColor));
 
-  useEffect(() => { target.current.set(garmentColor); }, [garmentColor]);
+  useEffect(() => { target.current.set(config.shirtColor); }, [config.shirtColor]);
   useFrame((_, delta) => {
     const mat = materials.lambert1;
     if (mat?.color) {
@@ -47,11 +50,12 @@ function ProductShirt({ decalUrl, garmentColor }) {
     }
   });
 
-  const a = ZONE_ANCHORS.front;
+  const a = ZONE_ANCHORS[config.zone] ?? ZONE_ANCHORS.front;
   const im = texture?.image;
   const aspect = im && im.height ? im.width / im.height : 1;
-  const sx = a.defScale * 1.35;
-  const sy = sx / aspect;
+  const sx = config.scale;
+  const sy = config.scale / aspect;
+  const depth = Math.max(sx, sy, 0.2);
 
   return (
     <mesh
@@ -63,7 +67,11 @@ function ProductShirt({ decalUrl, garmentColor }) {
       dispose={null}
     >
       {texture && (
-        <Decal position={a.pos} rotation={[0, a.rotY, 0]} scale={[sx, sy, Math.max(sx, sy, 0.2)]}>
+        <Decal
+          position={[a.pos[0] + config.offsetX, a.pos[1] + config.offsetY, a.pos[2]]}
+          rotation={[0, a.rotY, config.rotation]}
+          scale={[sx, sy, depth]}
+        >
           <meshStandardMaterial
             map={texture}
             transparent
@@ -80,7 +88,7 @@ function ProductShirt({ decalUrl, garmentColor }) {
   );
 }
 
-export default function ProductMockupScene({ imageUrl, garmentColor = '#f3f3f3' }) {
+export default function ProductMockupScene({ config }) {
   const controlsRef = useRef();
 
   // El canvas de R3F a veces mide 0 en su primer render (recién montado en un
@@ -106,7 +114,7 @@ export default function ProductMockupScene({ imageUrl, garmentColor = '#f3f3f3' 
 
       <Suspense fallback={<Loader />}>
         <Center>
-          <ProductShirt decalUrl={imageUrl} garmentColor={garmentColor} />
+          <ProductShirt config={config} />
         </Center>
       </Suspense>
 

@@ -73,6 +73,7 @@ export async function POST(req: NextRequest) {
         peso: productoData.peso ?? null,
         tags: productoData.tags,
         dimensiones: productoData.dimensiones || null,
+        mockup3d: productoData.mockup3d || null,
         variantes: variantes?.length ? {
           create: variantes.map(v => ({
             nombre: v.nombre,

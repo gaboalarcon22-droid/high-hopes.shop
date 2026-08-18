@@ -67,6 +67,7 @@ model Producto {
   tags            String          @default("[]") // JSON array
   peso            Float?          // kg, para cálculo envío
   dimensiones     String?         // JSON {alto, ancho, profundo}
+  mockup3d        String?         // JSON: config del mockup 3D (prenda, color, arte, transform) para el visor interactivo
   creadoEn        DateTime        @default(now())
   actualizadoEn   DateTime        @updatedAt
 }

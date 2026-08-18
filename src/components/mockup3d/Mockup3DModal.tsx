@@ -12,9 +12,20 @@ const Mockup3DStudio = dynamic(() => import('./Mockup3DStudio'), {
   ),
 })
 
+export interface Mockup3DConfig {
+  garmentId: string
+  shirtColor: string
+  zone: string
+  decalUrl: string
+  scale: number
+  offsetX: number
+  offsetY: number
+  rotation: number
+}
+
 interface Props {
   onClose: () => void
-  onUseImage: (dataUrl: string) => void
+  onUseImage: (dataUrl: string, config: Mockup3DConfig | null) => void
   initialColor?: string
 }
 

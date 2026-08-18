@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { slugify } from '@/lib/utils'
 import { Plus, Trash2, Sparkles, Loader2, Upload, ImagePlus, Shirt } from 'lucide-react'
 import type { Categoria, Producto, Variante } from '@prisma/client'
-import { Mockup3DModal } from '@/components/mockup3d/Mockup3DModal'
+import { Mockup3DModal, type Mockup3DConfig } from '@/components/mockup3d/Mockup3DModal'
 
 interface VarianteForm {
   id?: string
@@ -72,9 +72,13 @@ export function ProductoForm({ categorias, producto }: Props) {
 
   // ── Mockup 3D ───────────────────────────────────────────────────
   const [showMockup3D, setShowMockup3D] = useState(false)
+  const [mockup3dConfig, setMockup3dConfig] = useState<Mockup3DConfig | null>(
+    producto?.mockup3d ? (JSON.parse(producto.mockup3d) as Mockup3DConfig) : null
+  )
 
-  function agregarImagenDesdeMockup(dataUrl: string) {
+  function agregarImagenDesdeMockup(dataUrl: string, config: Mockup3DConfig | null) {
     setForm(f => f.imagenes.length >= 5 ? f : { ...f, imagenes: [...f.imagenes, dataUrl] })
+    if (config) setMockup3dConfig(config)
   }
 
   function autoSlug(nombre: string) {
@@ -191,6 +195,7 @@ export function ProductoForm({ categorias, producto }: Props) {
       peso: form.peso ? parseFloat(form.peso) : null,
       imagenes: JSON.stringify(form.imagenes),
       tags: JSON.stringify(form.tags.split(',').map(t => t.trim()).filter(Boolean)),
+      mockup3d: mockup3dConfig ? JSON.stringify(mockup3dConfig) : null,
       variantes,
     }
 
@@ -340,9 +345,21 @@ export function ProductoForm({ categorias, producto }: Props) {
                 className="w-full flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-green-300 bg-green-50/50 py-6 text-sm text-green-800 hover:border-green-500 hover:bg-green-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <Shirt className="h-6 w-6" />
-                <span className="font-medium">Crear mockup 3D de remera</span>
+                <span className="font-medium">{mockup3dConfig ? 'Editar mockup 3D' : 'Crear mockup 3D de remera'}</span>
                 <span className="text-xs text-green-600">Diseñá la estampa en 3D y usala como imagen del producto</span>
               </button>
+              {mockup3dConfig && (
+                <div className="mt-2 flex items-center justify-between rounded-lg bg-green-50 border border-green-200 px-3 py-2">
+                  <span className="text-xs text-green-700">✓ Vista 3D interactiva habilitada para este producto</span>
+                  <button
+                    type="button"
+                    onClick={() => setMockup3dConfig(null)}
+                    className="text-xs text-red-500 hover:text-red-700 font-medium"
+                  >
+                    Quitar
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Upload desde computadora */}

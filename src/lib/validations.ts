@@ -67,6 +67,7 @@ export const productoSchema = z.object({
   peso: z.number().positive().max(9999).nullable().optional(),
   tags: z.string(), // JSON string
   dimensiones: z.string().max(200).optional().nullable(),
+  mockup3d: z.string().max(5_000_000).optional().nullable(), // JSON string, incluye la estampa en base64
   variantes: z
     .array(
       z.object({
