@@ -18,6 +18,9 @@ interface VarianteForm {
   sku: string
 }
 
+// Talles estándar de remeras oversize (King Tex): S a XXL
+const TALLES_OVERSIZE = ['S', 'M', 'L', 'XL', 'XXL']
+
 interface Props {
   categorias: Categoria[]
   producto?: Producto & { variantes: Variante[] }
@@ -105,6 +108,14 @@ export function ProductoForm({ categorias, producto }: Props) {
 
   function quitarVariante(i: number) {
     setVariantes(v => v.filter((_, idx) => idx !== i))
+  }
+
+  function toggleTalle(talle: string) {
+    setVariantes(v => {
+      const existe = v.some(x => x.nombre === 'Talle' && x.valor === talle)
+      if (existe) return v.filter(x => !(x.nombre === 'Talle' && x.valor === talle))
+      return [...v, { nombre: 'Talle', valor: talle, precio: '', stock: '0', sku: '' }]
+    })
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -428,6 +439,38 @@ export function ProductoForm({ categorias, producto }: Props) {
               </div>
             )}
             <p className="text-xs text-gray-400">La primera imagen es la principal. Podés reordenar eliminando y volviendo a subir.</p>
+          </div>
+
+          {/* Talles */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-3">
+            <div>
+              <h2 className="font-semibold text-gray-900">Talles</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Básicos de remera oversize (King Tex) — tocá para agregar o quitar.</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {TALLES_OVERSIZE.map(talle => {
+                const activo = variantes.some(v => v.nombre === 'Talle' && v.valor === talle)
+                return (
+                  <button
+                    key={talle}
+                    type="button"
+                    onClick={() => toggleTalle(talle)}
+                    className={`min-w-11 rounded-lg border px-3.5 py-2 text-sm font-semibold transition-colors ${
+                      activo
+                        ? 'border-green-600 bg-green-600 text-white'
+                        : 'border-gray-200 bg-white text-gray-600 hover:border-green-400 hover:text-green-700'
+                    }`}
+                  >
+                    {talle}
+                  </button>
+                )
+              })}
+            </div>
+            {variantes.some(v => v.nombre === 'Talle') && (
+              <p className="text-xs text-gray-400">
+                Ajustá el stock de cada talle en la lista de variantes de abajo.
+              </p>
+            )}
           </div>
 
           {/* Variantes */}
