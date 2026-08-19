@@ -1,6 +1,5 @@
 import { db } from '@/lib/db'
 import { ProductoCard } from '@/components/tienda/producto-card'
-import { MobileFiltros } from '@/components/tienda/mobile-filtros'
 import Link from 'next/link'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
 
@@ -49,35 +48,7 @@ export default async function TiendaPage({ searchParams }: Props) {
       <style>{`
         @media (max-width: 768px) {
           .tienda-content { padding: 0 14px 48px !important; }
-          .cat-pills-wrap { padding: 0 14px !important; }
         }
-        .cat-pills-scroll {
-          display: flex;
-          gap: 8px;
-          overflow-x: auto;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          padding-bottom: 2px;
-        }
-        .cat-pills-scroll::-webkit-scrollbar { display: none; }
-        .cat-pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          padding: 7px 16px;
-          border-radius: 999px;
-          font-size: 0.82rem;
-          font-weight: 600;
-          white-space: nowrap;
-          cursor: pointer;
-          text-decoration: none;
-          transition: background 0.2s, color 0.2s, border-color 0.2s;
-          border: 1px solid rgba(255,255,255,0.08);
-          color: #888;
-          background: rgba(255,255,255,0.04);
-        }
-        .cat-pill:hover { color: #fff; border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); }
-        .cat-pill.active { background: #c6ff1a; border-color: #c6ff1a; color: #0a0a0a; }
         .productos-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -89,18 +60,6 @@ export default async function TiendaPage({ searchParams }: Props) {
         }
         @media (max-width: 768px) {
           .productos-grid { grid-template-columns: repeat(2, 1fr) !important; column-gap: 12px !important; row-gap: 24px !important; }
-        }
-        .sort-bar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 20px;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
-        .sort-bar-count {
-          font-size: 0.82rem;
-          color: #555;
         }
       `}</style>
 
@@ -134,45 +93,16 @@ export default async function TiendaPage({ searchParams }: Props) {
         </div>
       </div>
 
-      {/* Pills categorías — visible en todos los tamaños */}
-      <div className="cat-pills-wrap" style={{ maxWidth: 1800, margin: '0 auto', padding: '20px 24px 0' }}>
-        <div className="cat-pills-scroll">
-          <Link href="/tienda" className={`cat-pill${!cat ? ' active' : ''}`}>
-            Todos
-          </Link>
-          {categorias.map(c => (
-            <Link key={c.id} href={`/tienda?cat=${c.slug}${orden ? `&orden=${orden}` : ''}`} className={`cat-pill${cat === c.slug ? ' active' : ''}`}>
-              {c.icono && <span>{c.icono}</span>}{c.nombre}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* Contenido — 100% grilla, prioridad total a los productos */}
+      <div className="tienda-content" style={{ maxWidth: 1800, margin: '0 auto', padding: '32px 24px 80px' }}>
 
-      {/* Contenido — 100% grilla, sin sidebar */}
-      <div className="tienda-content" style={{ maxWidth: 1800, margin: '0 auto', padding: '24px 24px 80px' }}>
-
-        {/* Búsqueda + orden, visible en todos los tamaños */}
-        <MobileFiltros
-          categorias={categorias}
-          categoriaActiva={cat}
-          ordenActivo={orden}
-        />
-
-        {/* Barra de resultados */}
-        <div className="sort-bar">
-          <p className="sort-bar-count">
-            {productos.length === 0
-              ? 'Sin resultados'
-              : `${productos.length} producto${productos.length !== 1 ? 's' : ''}`}
-            {categoriaActiva && <span style={{ color: '#c6ff1a' }}> · {categoriaActiva.nombre}</span>}
-            {q && <span> · &quot;{q}&quot;</span>}
-          </p>
-          {(cat || q) && (
+        {(cat || q) && (
+          <div style={{ marginBottom: 20 }}>
             <Link href="/tienda" className="limpiar-filtros-link">
-              Limpiar filtros ×
+              ← Ver todos los productos
             </Link>
-          )}
-        </div>
+          </div>
+        )}
 
         {productos.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
