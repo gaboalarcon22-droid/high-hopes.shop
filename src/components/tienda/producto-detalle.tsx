@@ -16,9 +16,10 @@ interface Props {
 }
 
 export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
-  const [imagenActiva, setImagenActiva] = useState(0)
-  const [modo3D, setModo3D] = useState(false)
   const mockup3d: Mockup3DConfig | null = producto.mockup3d ? JSON.parse(producto.mockup3d) : null
+  const [imagenActiva, setImagenActiva] = useState(0)
+  // Si el producto tiene mockup 3D, arranca mostrando el 3D en vez de la foto.
+  const [modo3D, setModo3D] = useState(!!mockup3d)
   const [varianteId, setVarianteId] = useState<string | undefined>()
   const [cantidad, setCantidad] = useState(1)
 

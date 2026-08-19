@@ -80,9 +80,12 @@ export default async function TiendaPage({ searchParams }: Props) {
         .cat-pill.active { background: #c6ff1a; border-color: #c6ff1a; color: #0a0a0a; }
         .productos-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-          column-gap: 22px;
-          row-gap: 40px;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          column-gap: 18px;
+          row-gap: 48px;
+        }
+        @media (max-width: 1100px) {
+          .productos-grid { grid-template-columns: repeat(3, 1fr) !important; }
         }
         @media (max-width: 768px) {
           .productos-grid { grid-template-columns: repeat(2, 1fr) !important; column-gap: 12px !important; row-gap: 24px !important; }
@@ -132,7 +135,7 @@ export default async function TiendaPage({ searchParams }: Props) {
       </div>
 
       {/* Pills categorías — visible en todos los tamaños */}
-      <div className="cat-pills-wrap" style={{ maxWidth: 1200, margin: '0 auto', padding: '20px 28px 0' }}>
+      <div className="cat-pills-wrap" style={{ maxWidth: 1800, margin: '0 auto', padding: '20px 24px 0' }}>
         <div className="cat-pills-scroll">
           <Link href="/tienda" className={`cat-pill${!cat ? ' active' : ''}`}>
             Todos
@@ -146,7 +149,7 @@ export default async function TiendaPage({ searchParams }: Props) {
       </div>
 
       {/* Contenido — 100% grilla, sin sidebar */}
-      <div className="tienda-content" style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 28px 80px' }}>
+      <div className="tienda-content" style={{ maxWidth: 1800, margin: '0 auto', padding: '24px 24px 80px' }}>
 
         {/* Búsqueda + orden, visible en todos los tamaños */}
         <MobileFiltros

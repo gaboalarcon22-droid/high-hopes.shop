@@ -31,6 +31,43 @@ function Loader() {
   );
 }
 
+// Cuando el usuario suelta el arrastre, la prenda vuelve sola al frente (azimut 0).
+function RecenterOnRelease({ controlsRef }) {
+  const recentering = useRef(false);
+
+  useEffect(() => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+    const onEnd = () => { recentering.current = true; };
+    const onStart = () => { recentering.current = false; };
+    controls.addEventListener('end', onEnd);
+    controls.addEventListener('start', onStart);
+    return () => {
+      controls.removeEventListener('end', onEnd);
+      controls.removeEventListener('start', onStart);
+    };
+  }, [controlsRef]);
+
+  useFrame((_, delta) => {
+    const controls = controlsRef.current;
+    if (!controls || !recentering.current) return;
+    const cur = controls.getAzimuthalAngle();
+    let diff = -cur;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    if (Math.abs(diff) < 0.01) {
+      controls.setAzimuthalAngle(0);
+      controls.update();
+      recentering.current = false;
+      return;
+    }
+    controls.setAzimuthalAngle(cur + diff * Math.min(1, delta * 4));
+    controls.update();
+  });
+
+  return null;
+}
+
 // Reconstruye el mockup exactamente como quedó en el estudio: misma prenda,
 // mismo color, misma estampa (ya procesada/transparente) y mismo
 // transform (scale/offset/rotation) dentro de la zona donde se armó.
@@ -101,7 +138,7 @@ export default function ProductMockupScene({ config }) {
   return (
     <Canvas
       shadows
-      camera={{ position: [0, 0, 2.6], fov: 25 }}
+      camera={{ position: [0, 0, 1.85], fov: 25 }}
       gl={{ antialias: true }}
       dpr={[1, 2]}
     >
@@ -123,11 +160,12 @@ export default function ProductMockupScene({ config }) {
       <OrbitControls
         ref={controlsRef}
         enablePan={false}
-        minDistance={1.6}
-        maxDistance={4}
-        minPolarAngle={Math.PI / 3}
-        maxPolarAngle={Math.PI / 1.8}
+        minDistance={1.2}
+        maxDistance={2.8}
+        minPolarAngle={Math.PI / 2}
+        maxPolarAngle={Math.PI / 2}
       />
+      <RecenterOnRelease controlsRef={controlsRef} />
     </Canvas>
   );
 }
