@@ -131,7 +131,7 @@ export const usuarioUpdateSchema = z.object({
 
 export const configuracionSchema = z.record(
   z.string().min(1).max(100),
-  z.string().max(1000)
+  z.string().max(5_000_000) // permite imágenes de fondo en base64 (FONDO_*)
 )
 
 // ── Helpers ──────────────────────────────────────────────────────

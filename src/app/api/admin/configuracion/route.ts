@@ -19,6 +19,9 @@ const CLAVES_PERMITIDAS = [
   'MONEDA',
   'INSTAGRAM_URL',
   'FACEBOOK_URL',
+  'FONDO_HERO',
+  'FONDO_GRILLA',
+  'FONDO_FOOTER',
 ] as const
 
 async function requireAdmin() {

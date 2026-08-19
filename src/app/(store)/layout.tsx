@@ -1,8 +1,13 @@
 import { StoreHeader } from '@/components/layout/store-header'
+import { db } from '@/lib/db'
+import { parseFondo, fondoToStyle } from '@/lib/fondos'
 
 export const dynamic = 'force-dynamic'
 
-export default function StoreLayout({ children }: { children: React.ReactNode }) {
+export default async function StoreLayout({ children }: { children: React.ReactNode }) {
+  const configFooter = await db.configuracion.findUnique({ where: { clave: 'FONDO_FOOTER' } })
+  const fondoFooter = fondoToStyle(parseFondo('FONDO_FOOTER', configFooter?.valor))
+
   return (
     <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
       <StoreHeader />
@@ -11,7 +16,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       </main>
 
       {/* Footer HC style */}
-      <footer style={{ background: '#111111', borderTop: '1px solid rgba(255,255,255,0.07)', padding: '64px 0 32px' }}>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '64px 0 32px', ...fondoFooter }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 48, marginBottom: 48 }}>
 

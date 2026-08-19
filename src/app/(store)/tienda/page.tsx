@@ -2,6 +2,7 @@ import { db } from '@/lib/db'
 import { ProductoCard } from '@/components/tienda/producto-card'
 import { MobileFiltros } from '@/components/tienda/mobile-filtros'
 import Link from 'next/link'
+import { parseFondo, fondoToStyle } from '@/lib/fondos'
 
 interface Props {
   searchParams: Promise<{ cat?: string; q?: string; orden?: string }>
@@ -38,8 +39,13 @@ export default async function TiendaPage({ searchParams }: Props) {
 
   const categoriaActiva = cat ? categorias.find(c => c.slug === cat) : null
 
+  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_HERO', 'FONDO_GRILLA'] } } })
+  const configMap = Object.fromEntries(configs.map(c => [c.clave, c.valor]))
+  const fondoHero = fondoToStyle(parseFondo('FONDO_HERO', configMap.FONDO_HERO))
+  const fondoGrilla = fondoToStyle(parseFondo('FONDO_GRILLA', configMap.FONDO_GRILLA))
+
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0a' }}>
+    <div style={{ minHeight: '100vh', ...fondoGrilla }}>
       <style>{`
         @media (max-width: 768px) {
           .tienda-content { padding: 0 14px 48px !important; }
@@ -96,7 +102,7 @@ export default async function TiendaPage({ searchParams }: Props) {
       `}</style>
 
       {/* Hero compacto */}
-      <div style={{ position: 'relative', overflow: 'hidden', paddingTop: 32, paddingBottom: 28, textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <div style={{ position: 'relative', overflow: 'hidden', paddingTop: 32, paddingBottom: 28, textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', ...fondoHero }}>
         <div style={{
           position: 'absolute', inset: 0,
           backgroundImage: 'linear-gradient(rgba(198,255,26,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(198,255,26,0.03) 1px, transparent 1px)',

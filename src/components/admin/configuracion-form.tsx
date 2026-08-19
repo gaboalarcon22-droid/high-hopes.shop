@@ -3,7 +3,9 @@
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { CheckCircle2, Store, MessageCircle, MapPin, Mail, Globe, Megaphone } from 'lucide-react'
+import { CheckCircle2, Store, MessageCircle, MapPin, Mail, Globe, Megaphone, Palette } from 'lucide-react'
+import { FondoEditor } from './fondo-editor'
+import { parseFondo, type FondoBlock, type FondoKey } from '@/lib/fondos'
 
 interface Props {
   config: Record<string, string>
@@ -17,6 +19,10 @@ export function ConfiguracionForm({ config: inicial }: Props) {
 
   function set(clave: string, valor: string) {
     setForm(f => ({ ...f, [clave]: valor }))
+  }
+
+  function setFondo(clave: FondoKey, next: FondoBlock) {
+    setForm(f => ({ ...f, [clave]: JSON.stringify(next) }))
   }
 
   async function guardar(e: React.FormEvent) {
@@ -186,6 +192,31 @@ export function ConfiguracionForm({ config: inicial }: Props) {
           value={form.FACEBOOK_URL ?? ''}
           onChange={e => set('FACEBOOK_URL', e.target.value)}
           placeholder="https://facebook.com/highhopes"
+        />
+      </Section>
+
+      {/* Fondos del sitio */}
+      <Section titulo="Fondos del sitio" icono={Palette}>
+        <p className="text-xs text-gray-400 -mt-2">
+          Personalizá el fondo de cada sección: color sólido, degradado o imagen.
+        </p>
+        <FondoEditor
+          titulo="Hero (portada de la tienda)"
+          descripcion="El banner de arriba de todo con el título principal."
+          value={parseFondo('FONDO_HERO', form.FONDO_HERO)}
+          onChange={next => setFondo('FONDO_HERO', next)}
+        />
+        <FondoEditor
+          titulo="Grilla de productos"
+          descripcion="El fondo detrás de las tarjetas de producto en la tienda."
+          value={parseFondo('FONDO_GRILLA', form.FONDO_GRILLA)}
+          onChange={next => setFondo('FONDO_GRILLA', next)}
+        />
+        <FondoEditor
+          titulo="Footer"
+          descripcion="El pie de página con los links y contacto."
+          value={parseFondo('FONDO_FOOTER', form.FONDO_FOOTER)}
+          onChange={next => setFondo('FONDO_FOOTER', next)}
         />
       </Section>
 

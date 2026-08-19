@@ -18,6 +18,9 @@ const CLAVES_PERMITIDAS = [
   'MONEDA',
   'INSTAGRAM_URL',
   'FACEBOOK_URL',
+  'FONDO_HERO',
+  'FONDO_GRILLA',
+  'FONDO_FOOTER',
 ]
 
 export default async function ConfiguracionPage() {
