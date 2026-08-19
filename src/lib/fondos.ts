@@ -23,14 +23,26 @@ export const FONDO_DEFAULTS: Record<FondoKey, FondoBlock> = {
   FONDO_FOOTER: { tipo: 'color', color: '#111111', color2: '#0a0a0a', angulo: 135, imagenUrl: '', overlay: 55 },
 }
 
-export function parseFondo(key: FondoKey, raw: string | undefined | null): FondoBlock {
-  if (!raw) return FONDO_DEFAULTS[key]
+// Versión genérica: parsea un FondoBlock guardado, con el default que se le pase.
+// La usan tanto los bloques del sitio (con su FONDO_DEFAULTS) como cualquier
+// otro fondo individual (ej. el de un producto puntual).
+export function parseFondoValue(raw: string | undefined | null, fallback: FondoBlock): FondoBlock {
+  if (!raw) return fallback
   try {
     const parsed = JSON.parse(raw)
-    return { ...FONDO_DEFAULTS[key], ...parsed }
+    return { ...fallback, ...parsed }
   } catch {
-    return FONDO_DEFAULTS[key]
+    return fallback
   }
+}
+
+export function parseFondo(key: FondoKey, raw: string | undefined | null): FondoBlock {
+  return parseFondoValue(raw, FONDO_DEFAULTS[key])
+}
+
+// Default para el fondo personalizado de un producto individual.
+export const FONDO_PRODUCTO_DEFAULT: FondoBlock = {
+  tipo: 'color', color: '#131313', color2: '#1c1c1c', angulo: 135, imagenUrl: '', overlay: 40,
 }
 
 // Convierte un FondoBlock en estilos CSS listos para usar en un contenedor.

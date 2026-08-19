@@ -86,6 +86,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         tags: productoData.tags,
         dimensiones: productoData.dimensiones || null,
         mockup3d: productoData.mockup3d || null,
+        fondo: productoData.fondo || null,
         variantes: {
           upsert: variantes?.map(v => ({
             where: { id: v.id ?? 'non-existent-id' },

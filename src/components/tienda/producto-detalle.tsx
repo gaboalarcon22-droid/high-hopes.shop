@@ -8,6 +8,7 @@ import { MessageCircle, ChevronLeft, Minus, Plus, Rotate3d, Image as ImageIcon }
 import type { Producto, Categoria, Variante } from '@prisma/client'
 import { ProductMockupViewer } from '@/components/mockup3d/ProductMockupViewer'
 import type { Mockup3DConfig } from '@/components/mockup3d/Mockup3DModal'
+import { parseFondoValue, fondoToStyle, FONDO_PRODUCTO_DEFAULT } from '@/lib/fondos'
 
 interface Props {
   producto: Producto & { categoria: Categoria; variantes: Variante[] }
@@ -17,6 +18,7 @@ interface Props {
 
 export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
   const mockup3d: Mockup3DConfig | null = producto.mockup3d ? JSON.parse(producto.mockup3d) : null
+  const fondoProducto = producto.fondo ? parseFondoValue(producto.fondo, FONDO_PRODUCTO_DEFAULT) : null
   const [imagenActiva, setImagenActiva] = useState(0)
   // Si el producto tiene mockup 3D, arranca mostrando el 3D en vez de la foto.
   const [modo3D, setModo3D] = useState(!!mockup3d)
@@ -83,7 +85,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
           )}
           <div style={{
             position: 'relative', aspectRatio: '4/5', flex: 1, borderRadius: 12,
-            background: modo3D ? '#e9e9e9' : '#131313', border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
+            ...(fondoProducto ? fondoToStyle(fondoProducto) : { background: modo3D ? '#e9e9e9' : '#131313' }),
+            border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             {mockup3d && (

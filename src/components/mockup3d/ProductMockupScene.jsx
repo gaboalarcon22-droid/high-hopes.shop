@@ -139,11 +139,11 @@ export default function ProductMockupScene({ config }) {
     <Canvas
       shadows
       camera={{ position: [0, 0, 1.85], fov: 25 }}
-      gl={{ antialias: true }}
+      gl={{ antialias: true, alpha: true }}
       dpr={[1, 2]}
     >
-      <color attach="background" args={['#e9e9e9']} />
-
+      {/* Sin <color attach="background">: el canvas queda transparente y se ve
+          el fondo del contenedor HTML (personalizado por producto o el default). */}
       <ambientLight intensity={0.6} />
       <directionalLight position={[3, 4, 5]} intensity={1.3} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
       <directionalLight position={[-4, 2, -3]} intensity={0.6} />

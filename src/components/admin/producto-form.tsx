@@ -8,6 +8,8 @@ import { slugify } from '@/lib/utils'
 import { Plus, Trash2, Sparkles, Loader2, Upload, ImagePlus, Shirt } from 'lucide-react'
 import type { Categoria, Producto, Variante } from '@prisma/client'
 import { Mockup3DModal, type Mockup3DConfig } from '@/components/mockup3d/Mockup3DModal'
+import { FondoEditor } from '@/components/admin/fondo-editor'
+import { parseFondoValue, FONDO_PRODUCTO_DEFAULT, type FondoBlock } from '@/lib/fondos'
 
 interface VarianteForm {
   id?: string
@@ -83,6 +85,12 @@ export function ProductoForm({ categorias, producto }: Props) {
     setForm(f => f.imagenes.length >= 5 ? f : { ...f, imagenes: [...f.imagenes, dataUrl] })
     if (config) setMockup3dConfig(config)
   }
+
+  // ── Fondo personalizado del producto ─────────────────────────────
+  const [fondoActivo, setFondoActivo] = useState(!!producto?.fondo)
+  const [fondoProducto, setFondoProducto] = useState<FondoBlock>(
+    parseFondoValue(producto?.fondo, FONDO_PRODUCTO_DEFAULT)
+  )
 
   function autoSlug(nombre: string) {
     if (!producto) setForm(f => ({ ...f, slug: slugify(nombre) }))
@@ -207,6 +215,7 @@ export function ProductoForm({ categorias, producto }: Props) {
       imagenes: JSON.stringify(form.imagenes),
       tags: JSON.stringify(form.tags.split(',').map(t => t.trim()).filter(Boolean)),
       mockup3d: mockup3dConfig ? JSON.stringify(mockup3dConfig) : null,
+      fondo: fondoActivo ? JSON.stringify(fondoProducto) : null,
       variantes,
     }
 
@@ -439,6 +448,36 @@ export function ProductoForm({ categorias, producto }: Props) {
               </div>
             )}
             <p className="text-xs text-gray-400">La primera imagen es la principal. Podés reordenar eliminando y volviendo a subir.</p>
+          </div>
+
+          {/* Fondo del producto */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="font-semibold text-gray-900">Fondo del producto</h2>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Se ve detrás del mockup 3D y de la foto en la ficha del producto.
+                </p>
+              </div>
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={fondoActivo}
+                  onChange={e => setFondoActivo(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="relative w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-600 transition-colors">
+                  <div className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${fondoActivo ? 'translate-x-4' : ''}`} />
+                </div>
+              </label>
+            </div>
+            {fondoActivo && (
+              <FondoEditor
+                titulo="Fondo personalizado"
+                value={fondoProducto}
+                onChange={setFondoProducto}
+              />
+            )}
           </div>
 
           {/* Talles */}

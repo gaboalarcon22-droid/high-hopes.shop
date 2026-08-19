@@ -68,6 +68,7 @@ model Producto {
   peso            Float?          // kg, para cálculo envío
   dimensiones     String?         // JSON {alto, ancho, profundo}
   mockup3d        String?         // JSON: config del mockup 3D (prenda, color, arte, transform) para el visor interactivo
+  fondo           String?         // JSON: FondoBlock — fondo personalizado detrás del mockup/foto en la ficha del producto
   creadoEn        DateTime        @default(now())
   actualizadoEn   DateTime        @updatedAt
 }
