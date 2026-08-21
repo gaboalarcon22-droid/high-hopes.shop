@@ -67,8 +67,8 @@ export const productoSchema = z.object({
   peso: z.number().positive().max(9999).nullable().optional(),
   tags: z.string(), // JSON string
   dimensiones: z.string().max(200).optional().nullable(),
-  mockup3d: z.string().max(5_000_000).optional().nullable(), // JSON string, incluye la estampa en base64
-  fondo: z.string().max(5_000_000).optional().nullable(), // JSON string (FondoBlock), puede incluir imagen en base64
+  mockup3d: z.string().max(20_000_000, 'La estampa del mockup 3D es demasiado pesada. Probá con una imagen más chica.').optional().nullable(), // JSON string, incluye la estampa en base64
+  fondo: z.string().max(20_000_000, 'La imagen de fondo es demasiado pesada. Probá con una imagen más chica.').optional().nullable(), // JSON string (FondoBlock), puede incluir imagen en base64
   variantes: z
     .array(
       z.object({
@@ -132,7 +132,7 @@ export const usuarioUpdateSchema = z.object({
 
 export const configuracionSchema = z.record(
   z.string().min(1).max(100),
-  z.string().max(5_000_000) // permite imágenes de fondo en base64 (FONDO_*)
+  z.string().max(20_000_000, 'La imagen de fondo es demasiado pesada. Probá con una imagen más chica.') // permite imágenes de fondo en base64 (FONDO_*)
 )
 
 // ── Helpers ──────────────────────────────────────────────────────
