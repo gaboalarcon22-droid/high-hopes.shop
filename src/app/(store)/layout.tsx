@@ -1,18 +1,21 @@
 import { StoreHeader } from '@/components/layout/store-header'
 import { db } from '@/lib/db'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
+import { LOGO_SIZE_PX, parseLogoTamano } from '@/lib/logo'
 
 export const dynamic = 'force-dynamic'
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
-  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_FOOTER', 'LOGO_URL'] } } })
+  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_FOOTER', 'LOGO_URL', 'LOGO_TAMANO'] } } })
   const configMap = Object.fromEntries(configs.map(c => [c.clave, c.valor]))
   const fondoFooter = fondoToStyle(parseFondo('FONDO_FOOTER', configMap.FONDO_FOOTER))
   const logoUrl = configMap.LOGO_URL || undefined
+  const logoTamano = parseLogoTamano(configMap.LOGO_TAMANO)
+  const logoFooterHeight = LOGO_SIZE_PX[logoTamano].footer
 
   return (
     <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
-      <StoreHeader logoUrl={logoUrl} />
+      <StoreHeader logoUrl={logoUrl} logoTamano={logoTamano} />
       <main style={{ flex: 1, paddingTop: '72px' }}>
         {children}
       </main>
@@ -27,7 +30,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
               <div style={{ marginBottom: 12 }}>
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={logoUrl} alt="High Hopes" style={{ height: 32, width: 'auto', maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+                  <img src={logoUrl} alt="High Hopes" style={{ height: logoFooterHeight, width: 'auto', maxWidth: 160, objectFit: 'contain', display: 'block' }} />
                 ) : (
                   <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff' }}>
                     High<span style={{ color: '#c6ff1a' }}> Hopes</span>

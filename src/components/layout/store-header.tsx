@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Menu, X, ShoppingCart } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/lib/cart-store'
+import { LOGO_SIZE_PX, type LogoTamano } from '@/lib/logo'
 
 const NAV_LINKS = [
   { href: '/tienda', label: 'Tienda' },
@@ -15,12 +16,14 @@ const NAV_LINKS = [
 
 interface Props {
   logoUrl?: string
+  logoTamano?: LogoTamano
 }
 
-export function StoreHeader({ logoUrl }: Props) {
+export function StoreHeader({ logoUrl, logoTamano = 'mediano' }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const totalItems = useCartStore(s => s.items.reduce((acc, i) => acc + i.cantidad, 0))
+  const logoSize = LOGO_SIZE_PX[logoTamano]
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20)
@@ -41,8 +44,8 @@ export function StoreHeader({ logoUrl }: Props) {
         }
         .store-nav-inner { max-width:1200px; margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; }
         .store-nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:800; font-size:1.15rem; letter-spacing:-0.01em; }
-        .store-nav-logo-img { height:34px; width:auto; max-width:160px; object-fit:contain; display:block; }
-        @media(max-width:768px){ .store-nav-logo-img{ height:28px; } }
+        .store-nav-logo-img { height:var(--logo-h, 34px); width:auto; max-width:160px; object-fit:contain; display:block; }
+        @media(max-width:768px){ .store-nav-logo-img{ height:var(--logo-h-mobile, 28px); } }
         .store-nav-links { display:flex; align-items:center; gap:28px; }
         @media(max-width:768px){ .store-nav-links{ display:none; } .hamburger-btn{ display:flex !important; } }
         .hamburger-btn { display:none; padding:8px; background:none; border:none; color:#ccc; cursor:pointer; }
@@ -92,7 +95,12 @@ export function StoreHeader({ logoUrl }: Props) {
           <Link href="/tienda" className="store-nav-logo">
             {logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="High Hopes" className="store-nav-logo-img" />
+              <img
+                src={logoUrl}
+                alt="High Hopes"
+                className="store-nav-logo-img"
+                style={{ ['--logo-h' as string]: `${logoSize.header}px`, ['--logo-h-mobile' as string]: `${logoSize.headerMobile}px` }}
+              />
             ) : (
               <span style={{ color: '#fff', fontFamily: 'var(--font-display)', letterSpacing: '0.02em' }}>High<span style={{ color: '#c6ff1a' }}> Hopes</span></span>
             )}

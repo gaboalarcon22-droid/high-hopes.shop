@@ -22,6 +22,7 @@ const CLAVES_PERMITIDAS = [
   'FONDO_GRILLA',
   'FONDO_FOOTER',
   'LOGO_URL',
+  'LOGO_TAMANO',
 ]
 
 export default async function ConfiguracionPage() {

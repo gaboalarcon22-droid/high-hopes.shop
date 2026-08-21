@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { CheckCircle2, Store, MessageCircle, MapPin, Mail, Globe, Megaphone, Palette, Image as ImageIcon, Loader2, X } from 'lucide-react'
 import { FondoEditor } from './fondo-editor'
 import { parseFondo, type FondoBlock, type FondoKey } from '@/lib/fondos'
+import { LOGO_TAMANOS, LOGO_SIZE_PX, parseLogoTamano } from '@/lib/logo'
 
 interface Props {
   config: Record<string, string>
@@ -230,29 +231,57 @@ export function ConfiguracionForm({ config: inicial }: Props) {
           onChange={e => handleLogoFile(e.target.files?.[0])}
         />
         {form.LOGO_URL ? (
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center h-14 px-4 rounded-lg bg-gray-900 border border-gray-200">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={form.LOGO_URL} alt="Logo" className="h-10 w-auto max-w-[160px] object-contain" />
+          <>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center justify-center h-14 px-4 rounded-lg bg-gray-900 border border-gray-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={form.LOGO_URL}
+                  alt="Logo"
+                  style={{ height: LOGO_SIZE_PX[parseLogoTamano(form.LOGO_TAMANO)].header, width: 'auto', maxWidth: 160 }}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <button
+                  type="button"
+                  onClick={() => logoInputRef.current?.click()}
+                  disabled={logoUploading}
+                  className="text-xs font-medium text-green-700 hover:text-green-800 disabled:opacity-50"
+                >
+                  Cambiar imagen
+                </button>
+                <button
+                  type="button"
+                  onClick={() => set('LOGO_URL', '')}
+                  className="text-xs font-medium text-red-500 hover:text-red-700 flex items-center gap-1"
+                >
+                  <X className="h-3 w-3" /> Quitar logo
+                </button>
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <button
-                type="button"
-                onClick={() => logoInputRef.current?.click()}
-                disabled={logoUploading}
-                className="text-xs font-medium text-green-700 hover:text-green-800 disabled:opacity-50"
-              >
-                Cambiar imagen
-              </button>
-              <button
-                type="button"
-                onClick={() => set('LOGO_URL', '')}
-                className="text-xs font-medium text-red-500 hover:text-red-700 flex items-center gap-1"
-              >
-                <X className="h-3 w-3" /> Quitar logo
-              </button>
+
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">Tamaño del logo</label>
+              <div className="flex gap-2">
+                {LOGO_TAMANOS.map(t => (
+                  <button
+                    key={t.value}
+                    type="button"
+                    onClick={() => set('LOGO_TAMANO', t.value)}
+                    className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                      parseLogoTamano(form.LOGO_TAMANO) === t.value
+                        ? 'border-green-600 bg-green-600 text-white'
+                        : 'border-gray-200 bg-white text-gray-600 hover:border-green-400'
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 mt-1.5">El ancho se ajusta solo — nunca se deforma ni rompe el header.</p>
             </div>
-          </div>
+          </>
         ) : (
           <button
             type="button"
