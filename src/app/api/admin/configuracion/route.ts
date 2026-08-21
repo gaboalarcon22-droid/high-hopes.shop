@@ -22,6 +22,7 @@ const CLAVES_PERMITIDAS = [
   'FONDO_HERO',
   'FONDO_GRILLA',
   'FONDO_FOOTER',
+  'LOGO_URL',
 ] as const
 
 async function requireAdmin() {

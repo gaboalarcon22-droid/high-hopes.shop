@@ -5,12 +5,14 @@ import { parseFondo, fondoToStyle } from '@/lib/fondos'
 export const dynamic = 'force-dynamic'
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
-  const configFooter = await db.configuracion.findUnique({ where: { clave: 'FONDO_FOOTER' } })
-  const fondoFooter = fondoToStyle(parseFondo('FONDO_FOOTER', configFooter?.valor))
+  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_FOOTER', 'LOGO_URL'] } } })
+  const configMap = Object.fromEntries(configs.map(c => [c.clave, c.valor]))
+  const fondoFooter = fondoToStyle(parseFondo('FONDO_FOOTER', configMap.FONDO_FOOTER))
+  const logoUrl = configMap.LOGO_URL || undefined
 
   return (
     <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
-      <StoreHeader />
+      <StoreHeader logoUrl={logoUrl} />
       <main style={{ flex: 1, paddingTop: '72px' }}>
         {children}
       </main>
@@ -22,8 +24,15 @@ export default async function StoreLayout({ children }: { children: React.ReactN
 
             {/* Brand */}
             <div>
-              <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff', marginBottom: 12 }}>
-                High<span style={{ color: '#c6ff1a' }}> Hopes</span>
+              <div style={{ marginBottom: 12 }}>
+                {logoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={logoUrl} alt="High Hopes" style={{ height: 32, width: 'auto', maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+                ) : (
+                  <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff' }}>
+                    High<span style={{ color: '#c6ff1a' }}> Hopes</span>
+                  </span>
+                )}
               </div>
               <p style={{ fontSize: '0.87rem', color: '#888', lineHeight: 1.7 }}>
                 Remeras, buzos y estampas personalizadas — diseñá tu mockup 3D en tiempo real.

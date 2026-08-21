@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { CheckCircle2, Store, MessageCircle, MapPin, Mail, Globe, Megaphone, Palette } from 'lucide-react'
+import { CheckCircle2, Store, MessageCircle, MapPin, Mail, Globe, Megaphone, Palette, Image as ImageIcon, Loader2, X } from 'lucide-react'
 import { FondoEditor } from './fondo-editor'
 import { parseFondo, type FondoBlock, type FondoKey } from '@/lib/fondos'
 
@@ -16,9 +16,31 @@ export function ConfiguracionForm({ config: inicial }: Props) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [logoUploading, setLogoUploading] = useState(false)
+  const [logoError, setLogoError] = useState('')
+  const logoInputRef = useRef<HTMLInputElement>(null)
 
   function set(clave: string, valor: string) {
     setForm(f => ({ ...f, [clave]: valor }))
+  }
+
+  async function handleLogoFile(file: File | undefined) {
+    if (!file) return
+    setLogoError('')
+    setLogoUploading(true)
+    try {
+      const fd = new FormData()
+      fd.append('images', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Error al subir')
+      set('LOGO_URL', data.urls[0])
+    } catch (err) {
+      setLogoError(err instanceof Error ? err.message : 'Error al subir el logo')
+    } finally {
+      setLogoUploading(false)
+      if (logoInputRef.current) logoInputRef.current.value = ''
+    }
   }
 
   function setFondo(clave: FondoKey, next: FondoBlock) {
@@ -193,6 +215,59 @@ export function ConfiguracionForm({ config: inicial }: Props) {
           onChange={e => set('FACEBOOK_URL', e.target.value)}
           placeholder="https://facebook.com/highhopes"
         />
+      </Section>
+
+      {/* Logo de la tienda */}
+      <Section titulo="Logo de la tienda" icono={ImageIcon}>
+        <p className="text-xs text-gray-400 -mt-2">
+          Se muestra en el header y el footer de la tienda. Se ajusta solo al tamaño y proporción del sitio, sin importar las dimensiones originales de la imagen.
+        </p>
+        <input
+          ref={logoInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          hidden
+          onChange={e => handleLogoFile(e.target.files?.[0])}
+        />
+        {form.LOGO_URL ? (
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center h-14 px-4 rounded-lg bg-gray-900 border border-gray-200">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={form.LOGO_URL} alt="Logo" className="h-10 w-auto max-w-[160px] object-contain" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={() => logoInputRef.current?.click()}
+                disabled={logoUploading}
+                className="text-xs font-medium text-green-700 hover:text-green-800 disabled:opacity-50"
+              >
+                Cambiar imagen
+              </button>
+              <button
+                type="button"
+                onClick={() => set('LOGO_URL', '')}
+                className="text-xs font-medium text-red-500 hover:text-red-700 flex items-center gap-1"
+              >
+                <X className="h-3 w-3" /> Quitar logo
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => logoInputRef.current?.click()}
+            disabled={logoUploading}
+            className="w-full flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 py-5 text-sm text-gray-500 hover:border-green-400 hover:text-green-700 transition-colors disabled:opacity-50"
+          >
+            {logoUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImageIcon className="h-4 w-4" />}
+            {logoUploading ? 'Subiendo...' : 'Subir logo (PNG, JPG o WebP)'}
+          </button>
+        )}
+        {logoError && <p className="text-xs text-red-600">{logoError}</p>}
+        {!form.LOGO_URL && (
+          <p className="text-xs text-gray-400">Sin logo, se muestra el nombre "High Hopes" en su lugar.</p>
+        )}
       </Section>
 
       {/* Fondos del sitio */}

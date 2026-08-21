@@ -21,6 +21,7 @@ const CLAVES_PERMITIDAS = [
   'FONDO_HERO',
   'FONDO_GRILLA',
   'FONDO_FOOTER',
+  'LOGO_URL',
 ]
 
 export default async function ConfiguracionPage() {
