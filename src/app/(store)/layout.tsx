@@ -1,7 +1,7 @@
 import { StoreHeader } from '@/components/layout/store-header'
 import { db } from '@/lib/db'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
-import { LOGO_SIZE_PX, parseLogoTamano } from '@/lib/logo'
+import { LOGO_SIZE_PX, parseLogoTamano, headerOffsetPx } from '@/lib/logo'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,11 +13,12 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   const logoTamano = parseLogoTamano(configMap.LOGO_TAMANO)
   const logoFooterHeight = LOGO_SIZE_PX[logoTamano].footer
   const logoFooterMaxWidth = LOGO_SIZE_PX[logoTamano].maxWidth
+  const headerOffset = headerOffsetPx(logoTamano, !!logoUrl)
 
   return (
     <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
       <StoreHeader logoUrl={logoUrl} logoTamano={logoTamano} />
-      <main style={{ flex: 1, paddingTop: '72px' }}>
+      <main style={{ flex: 1, paddingTop: headerOffset }}>
         {children}
       </main>
 

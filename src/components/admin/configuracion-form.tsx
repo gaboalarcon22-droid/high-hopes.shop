@@ -233,7 +233,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
         {form.LOGO_URL ? (
           <>
             <div className="flex items-center gap-4">
-              <div className="flex items-center justify-center h-16 px-4 rounded-lg bg-gray-900 border border-gray-200 max-w-[340px]">
+              <div className="flex items-center justify-center h-24 px-4 rounded-lg bg-gray-900 border border-gray-200 max-w-[400px]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={form.LOGO_URL}

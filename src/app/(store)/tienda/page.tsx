@@ -2,6 +2,7 @@ import { db } from '@/lib/db'
 import { ProductoCard } from '@/components/tienda/producto-card'
 import Link from 'next/link'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
+import { LOGO_SIZE_PX, parseLogoTamano } from '@/lib/logo'
 
 interface Props {
   searchParams: Promise<{ cat?: string; q?: string; orden?: string }>
@@ -38,10 +39,13 @@ export default async function TiendaPage({ searchParams }: Props) {
 
   const categoriaActiva = cat ? categorias.find(c => c.slug === cat) : null
 
-  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_HERO', 'FONDO_GRILLA'] } } })
+  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_HERO', 'FONDO_GRILLA', 'LOGO_URL', 'LOGO_TAMANO'] } } })
   const configMap = Object.fromEntries(configs.map(c => [c.clave, c.valor]))
   const fondoHero = fondoToStyle(parseFondo('FONDO_HERO', configMap.FONDO_HERO))
   const fondoGrilla = fondoToStyle(parseFondo('FONDO_GRILLA', configMap.FONDO_GRILLA))
+  const logoUrl = configMap.LOGO_URL || undefined
+  const logoTamano = parseLogoTamano(configMap.LOGO_TAMANO)
+  const heroLogo = LOGO_SIZE_PX[logoTamano]
 
   return (
     <div style={{ minHeight: '100vh', ...fondoGrilla }}>
@@ -61,6 +65,10 @@ export default async function TiendaPage({ searchParams }: Props) {
         @media (max-width: 768px) {
           .productos-grid { grid-template-columns: repeat(2, 1fr) !important; column-gap: 12px !important; row-gap: 24px !important; }
         }
+        .hero-logo-img { height:var(--hero-logo-h); width:auto; max-width:var(--hero-logo-w); object-fit:contain; margin:0 auto 18px; display:block; }
+        @media (max-width: 768px) {
+          .hero-logo-img { height:var(--hero-logo-h-mobile); max-width:var(--hero-logo-w-mobile); margin-bottom:14px; }
+        }
       `}</style>
 
       {/* Hero compacto */}
@@ -76,6 +84,20 @@ export default async function TiendaPage({ searchParams }: Props) {
           pointerEvents: 'none',
         }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px' }}>
+          {logoUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={logoUrl}
+              alt="High Hopes"
+              className="hero-logo-img"
+              style={{
+                ['--hero-logo-h' as string]: `${heroLogo.hero}px`,
+                ['--hero-logo-h-mobile' as string]: `${heroLogo.heroMobile}px`,
+                ['--hero-logo-w' as string]: `${heroLogo.heroMaxWidth}px`,
+                ['--hero-logo-w-mobile' as string]: `${heroLogo.heroMaxWidthMobile}px`,
+              }}
+            />
+          )}
           {categoriaActiva ? (
             <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
               <span style={{ marginRight: 8 }}>{categoriaActiva.icono}</span>{categoriaActiva.nombre}

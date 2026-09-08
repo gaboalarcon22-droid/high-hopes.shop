@@ -12,10 +12,22 @@ export const LOGO_TAMANOS: { value: LogoTamano; label: string }[] = [
 // Alturas y ancho máximo en px por contexto. maxWidth es generoso para que
 // un logo horizontal (wordmark) no se recorte antes de llegar a la altura
 // configurada — el ancho real siempre se ajusta solo vía object-fit:contain.
-export const LOGO_SIZE_PX: Record<LogoTamano, { header: number; headerMobile: number; footer: number; maxWidth: number; maxWidthMobile: number }> = {
-  chico:   { header: 24, headerMobile: 20, footer: 24, maxWidth: 150, maxWidthMobile: 120 },
-  mediano: { header: 36, headerMobile: 28, footer: 34, maxWidth: 220, maxWidthMobile: 160 },
-  grande:  { header: 52, headerMobile: 38, footer: 48, maxWidth: 300, maxWidthMobile: 200 },
+// "hero" es el tamaño grande que se usa en la portada de la tienda (arriba del título).
+export const LOGO_SIZE_PX: Record<LogoTamano, {
+  header: number; headerMobile: number; footer: number
+  maxWidth: number; maxWidthMobile: number
+  hero: number; heroMobile: number; heroMaxWidth: number; heroMaxWidthMobile: number
+}> = {
+  chico:   { header: 32, headerMobile: 26, footer: 30, maxWidth: 180, maxWidthMobile: 140, hero: 70,  heroMobile: 52, heroMaxWidth: 260, heroMaxWidthMobile: 200 },
+  mediano: { header: 46, headerMobile: 36, footer: 42, maxWidth: 260, maxWidthMobile: 180, hero: 110, heroMobile: 76, heroMaxWidth: 360, heroMaxWidthMobile: 260 },
+  grande:  { header: 64, headerMobile: 48, footer: 58, maxWidth: 340, maxWidthMobile: 240, hero: 150, heroMobile: 100, heroMaxWidth: 460, heroMaxWidthMobile: 320 },
+}
+
+// Alto del header (nav fijo) que hay que reservar arriba de la página para
+// que el contenido no quede tapado, según el tamaño de logo elegido.
+export function headerOffsetPx(tamano: LogoTamano, tieneLogo: boolean): number {
+  if (!tieneLogo) return 72
+  return LOGO_SIZE_PX[tamano].header + 40
 }
 
 export function parseLogoTamano(raw: string | undefined | null): LogoTamano {
