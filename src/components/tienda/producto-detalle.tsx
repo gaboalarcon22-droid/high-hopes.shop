@@ -40,9 +40,10 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
       <style>{`
         @media (max-width: 900px) {
           .pdp-grid { grid-template-columns: 1fr !important; }
-          .pdp-gallery { position: static !important; flex-direction: column-reverse !important; height: auto !important; }
+          .pdp-gallery { position: static !important; flex-direction: column-reverse !important; }
           .pdp-thumbs { flex-direction: row !important; width: 100% !important; overflow-x: auto !important; }
           .pdp-thumbs button { width: 64px !important; flex-shrink: 0; }
+          .pdp-main-img { max-height: none !important; }
         }
       `}</style>
       {/* Breadcrumb */}
@@ -64,7 +65,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
 
       <div className="pdp-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(280px, 1fr)', gap: 40, alignItems: 'flex-start' }}>
         {/* Galería — imagen grande + riel de miniaturas, sticky mientras se scrollea la info */}
-        <div className="pdp-gallery" style={{ position: 'sticky', top: 88, display: 'flex', gap: 12, height: 'min(62vh, 540px)' }}>
+        <div className="pdp-gallery" style={{ position: 'sticky', top: 88, display: 'flex', gap: 12 }}>
           {imagenes.length > 1 && (
             <div className="pdp-thumbs" style={{ display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0, width: 76 }}>
               {imagenes.map((img, i) => (
@@ -83,8 +84,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
               ))}
             </div>
           )}
-          <div style={{
-            position: 'relative', aspectRatio: '4/5', height: '100%', borderRadius: 12,
+          <div className="pdp-main-img" style={{
+            position: 'relative', flex: 1, aspectRatio: '4/5', maxHeight: 'min(64vh, 560px)', borderRadius: 12,
             ...(fondoProducto ? fondoToStyle(fondoProducto) : { background: modo3D ? '#e9e9e9' : '#131313' }),
             border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -112,7 +113,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
               <img
                 src={imagenes[imagenActiva]}
                 alt={producto.nombre}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             ) : (
               <svg style={{ width: 80, height: 80, color: '#333' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">

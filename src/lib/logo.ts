@@ -18,9 +18,9 @@ export const LOGO_SIZE_PX: Record<LogoTamano, {
   maxWidth: number; maxWidthMobile: number
   hero: number; heroMobile: number; heroMaxWidth: number; heroMaxWidthMobile: number
 }> = {
-  chico:   { header: 32, headerMobile: 26, footer: 44, maxWidth: 180, maxWidthMobile: 140, hero: 70,  heroMobile: 52, heroMaxWidth: 260, heroMaxWidthMobile: 200 },
-  mediano: { header: 46, headerMobile: 36, footer: 62, maxWidth: 260, maxWidthMobile: 180, hero: 110, heroMobile: 76, heroMaxWidth: 360, heroMaxWidthMobile: 260 },
-  grande:  { header: 64, headerMobile: 48, footer: 84, maxWidth: 340, maxWidthMobile: 240, hero: 150, heroMobile: 100, heroMaxWidth: 460, heroMaxWidthMobile: 320 },
+  chico:   { header: 32, headerMobile: 26, footer: 44, maxWidth: 180, maxWidthMobile: 140, hero: 90,  heroMobile: 60,  heroMaxWidth: 340, heroMaxWidthMobile: 240 },
+  mediano: { header: 46, headerMobile: 36, footer: 62, maxWidth: 260, maxWidthMobile: 180, hero: 160, heroMobile: 100, heroMaxWidth: 520, heroMaxWidthMobile: 320 },
+  grande:  { header: 64, headerMobile: 48, footer: 84, maxWidth: 340, maxWidthMobile: 240, hero: 240, heroMobile: 140, heroMaxWidth: 700, heroMaxWidthMobile: 420 },
 }
 
 // Alto del header (nav fijo) que hay que reservar arriba de la página para
