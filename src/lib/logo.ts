@@ -9,11 +9,13 @@ export const LOGO_TAMANOS: { value: LogoTamano; label: string }[] = [
   { value: 'grande', label: 'Grande' },
 ]
 
-// Alturas en px por contexto — el ancho se ajusta solo, siempre relativas al sitio.
-export const LOGO_SIZE_PX: Record<LogoTamano, { header: number; headerMobile: number; footer: number }> = {
-  chico:   { header: 24, headerMobile: 20, footer: 24 },
-  mediano: { header: 34, headerMobile: 28, footer: 32 },
-  grande:  { header: 48, headerMobile: 38, footer: 44 },
+// Alturas y ancho máximo en px por contexto. maxWidth es generoso para que
+// un logo horizontal (wordmark) no se recorte antes de llegar a la altura
+// configurada — el ancho real siempre se ajusta solo vía object-fit:contain.
+export const LOGO_SIZE_PX: Record<LogoTamano, { header: number; headerMobile: number; footer: number; maxWidth: number; maxWidthMobile: number }> = {
+  chico:   { header: 24, headerMobile: 20, footer: 24, maxWidth: 150, maxWidthMobile: 120 },
+  mediano: { header: 36, headerMobile: 28, footer: 34, maxWidth: 220, maxWidthMobile: 160 },
+  grande:  { header: 52, headerMobile: 38, footer: 48, maxWidth: 300, maxWidthMobile: 200 },
 }
 
 export function parseLogoTamano(raw: string | undefined | null): LogoTamano {

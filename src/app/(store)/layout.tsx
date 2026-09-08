@@ -12,6 +12,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   const logoUrl = configMap.LOGO_URL || undefined
   const logoTamano = parseLogoTamano(configMap.LOGO_TAMANO)
   const logoFooterHeight = LOGO_SIZE_PX[logoTamano].footer
+  const logoFooterMaxWidth = LOGO_SIZE_PX[logoTamano].maxWidth
 
   return (
     <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
@@ -30,7 +31,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
               <div style={{ marginBottom: 12 }}>
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={logoUrl} alt="High Hopes" style={{ height: logoFooterHeight, width: 'auto', maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+                  <img src={logoUrl} alt="High Hopes" style={{ height: logoFooterHeight, width: 'auto', maxWidth: logoFooterMaxWidth, objectFit: 'contain', display: 'block' }} />
                 ) : (
                   <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff' }}>
                     High<span style={{ color: '#c6ff1a' }}> Hopes</span>

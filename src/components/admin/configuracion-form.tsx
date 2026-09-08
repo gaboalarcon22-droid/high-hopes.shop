@@ -233,12 +233,16 @@ export function ConfiguracionForm({ config: inicial }: Props) {
         {form.LOGO_URL ? (
           <>
             <div className="flex items-center gap-4">
-              <div className="flex items-center justify-center h-14 px-4 rounded-lg bg-gray-900 border border-gray-200">
+              <div className="flex items-center justify-center h-16 px-4 rounded-lg bg-gray-900 border border-gray-200 max-w-[340px]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={form.LOGO_URL}
                   alt="Logo"
-                  style={{ height: LOGO_SIZE_PX[parseLogoTamano(form.LOGO_TAMANO)].header, width: 'auto', maxWidth: 160 }}
+                  style={{
+                    height: LOGO_SIZE_PX[parseLogoTamano(form.LOGO_TAMANO)].header,
+                    width: 'auto',
+                    maxWidth: LOGO_SIZE_PX[parseLogoTamano(form.LOGO_TAMANO)].maxWidth,
+                  }}
                   className="object-contain"
                 />
               </div>

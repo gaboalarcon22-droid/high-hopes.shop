@@ -44,8 +44,8 @@ export function StoreHeader({ logoUrl, logoTamano = 'mediano' }: Props) {
         }
         .store-nav-inner { max-width:1200px; margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; }
         .store-nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:800; font-size:1.15rem; letter-spacing:-0.01em; }
-        .store-nav-logo-img { height:var(--logo-h, 34px); width:auto; max-width:160px; object-fit:contain; display:block; }
-        @media(max-width:768px){ .store-nav-logo-img{ height:var(--logo-h-mobile, 28px); } }
+        .store-nav-logo-img { height:var(--logo-h, 34px); width:auto; max-width:var(--logo-w, 200px); object-fit:contain; display:block; }
+        @media(max-width:768px){ .store-nav-logo-img{ height:var(--logo-h-mobile, 28px); max-width:var(--logo-w-mobile, 150px); } }
         .store-nav-links { display:flex; align-items:center; gap:28px; }
         @media(max-width:768px){ .store-nav-links{ display:none; } .hamburger-btn{ display:flex !important; } }
         .hamburger-btn { display:none; padding:8px; background:none; border:none; color:#ccc; cursor:pointer; }
@@ -99,7 +99,12 @@ export function StoreHeader({ logoUrl, logoTamano = 'mediano' }: Props) {
                 src={logoUrl}
                 alt="High Hopes"
                 className="store-nav-logo-img"
-                style={{ ['--logo-h' as string]: `${logoSize.header}px`, ['--logo-h-mobile' as string]: `${logoSize.headerMobile}px` }}
+                style={{
+                  ['--logo-h' as string]: `${logoSize.header}px`,
+                  ['--logo-h-mobile' as string]: `${logoSize.headerMobile}px`,
+                  ['--logo-w' as string]: `${logoSize.maxWidth}px`,
+                  ['--logo-w-mobile' as string]: `${logoSize.maxWidthMobile}px`,
+                }}
               />
             ) : (
               <span style={{ color: '#fff', fontFamily: 'var(--font-display)', letterSpacing: '0.02em' }}>High<span style={{ color: '#c6ff1a' }}> Hopes</span></span>
