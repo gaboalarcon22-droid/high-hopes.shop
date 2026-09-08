@@ -98,13 +98,9 @@ export default async function TiendaPage({ searchParams }: Props) {
               }}
             />
           )}
-          {categoriaActiva ? (
+          {categoriaActiva && (
             <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
               <span style={{ marginRight: 8 }}>{categoriaActiva.icono}</span>{categoriaActiva.nombre}
-            </h1>
-          ) : (
-            <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-              Vestí lo que <span style={{ color: '#c6ff1a' }}>imaginás</span>
             </h1>
           )}
           {q && (

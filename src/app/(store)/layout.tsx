@@ -13,11 +13,13 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   const logoTamano = parseLogoTamano(configMap.LOGO_TAMANO)
   const logoFooterHeight = LOGO_SIZE_PX[logoTamano].footer
   const logoFooterMaxWidth = LOGO_SIZE_PX[logoTamano].maxWidth
-  const headerOffset = headerOffsetPx(logoTamano, !!logoUrl)
+  // El logo grande se usa en el hero y el footer; el header se queda con
+  // el texto "High Hopes" para no duplicarlo arriba de todo.
+  const headerOffset = headerOffsetPx(logoTamano, false)
 
   return (
     <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
-      <StoreHeader logoUrl={logoUrl} logoTamano={logoTamano} />
+      <StoreHeader />
       <main style={{ flex: 1, paddingTop: headerOffset }}>
         {children}
       </main>
@@ -49,11 +51,11 @@ export default async function StoreLayout({ children }: { children: React.ReactN
               <h4 className="footer-section-title">Categorías</h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {[
-                  { href: '/tienda?cat=remeras',        label: '👕 Remeras' },
-                  { href: '/tienda?cat=buzos',           label: '🧥 Buzos' },
-                  { href: '/tienda?cat=oversize',        label: '👔 Oversize' },
-                  { href: '/tienda?cat=personalizados',  label: '🎨 Personalizados' },
-                  { href: '/tienda?cat=accesorios',      label: '🔧 Accesorios' },
+                  { href: '/tienda?cat=remeras',        label: 'Remeras' },
+                  { href: '/tienda?cat=buzos',           label: 'Buzos' },
+                  { href: '/tienda?cat=oversize',        label: 'Oversize' },
+                  { href: '/tienda?cat=personalizados',  label: 'Personalizados' },
+                  { href: '/tienda?cat=accesorios',      label: 'Accesorios' },
                 ].map(l => (
                   <li key={l.href}>
                     <a href={l.href} className="footer-link">{l.label}</a>
