@@ -21,8 +21,8 @@ git push -u origin master
    - `ANTHROPIC_API_KEY` (generador de productos con IA)
    - `MP_ACCESS_TOKEN`, `MP_PUBLIC_KEY` (si se usa MercadoPago)
    - `ADMIN_EMAIL`, `ADMIN_PASSWORD` (solo para el primer seed)
-4. Primer arranque: en el shell de Railway correr `npm run db:seed` una vez (crea categorías y el admin), y después borrar `ADMIN_PASSWORD`.
-5. Start command ya definido en `railway.json` (`prisma db push && next start`).
+4. El seed corre solo en cada arranque (idempotente): crea categorías y el admin si no existen. Después del primer login, borrar `ADMIN_PASSWORD` de las variables.
+5. Start command ya definido en `railway.json` (`prisma db push && seed && next start`).
 
 ## 3. Dominio (registrado en GoDaddy)
 **Opción A (recomendada): dejar el dominio en GoDaddy y usar DNS de Cloudflare**

@@ -20,7 +20,7 @@ async function main() {
   for (const cat of CATEGORIAS) {
     await db.categoria.upsert({
       where: { slug: cat.slug },
-      update: cat,
+      update: {},
       create: cat,
     })
   }
@@ -30,12 +30,16 @@ async function main() {
   const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@highhopes.store'
   const adminPass = process.env.ADMIN_PASSWORD ?? 'HighHopes2026!'
   const enProd = process.env.NODE_ENV === 'production'
-  const hash = await bcrypt.hash(adminPass, 12)
-  await db.usuario.upsert({
-    where: { email: adminEmail },
-    update: {},
-    create: { email: adminEmail, password: hash, nombre: 'Administrador', rol: 'ADMIN' },
-  })
+  if (enProd && !process.env.ADMIN_PASSWORD) {
+    console.log('ℹ️  ADMIN_PASSWORD no definida: no se crea/modifica el admin')
+  } else {
+    const hash = await bcrypt.hash(adminPass, 12)
+    await db.usuario.upsert({
+      where: { email: adminEmail },
+      update: {},
+      create: { email: adminEmail, password: hash, nombre: 'Administrador', rol: 'ADMIN' },
+    })
+  }
 
   if (!enProd) {
     const hashOp = await bcrypt.hash('Operador2026!', 12)
