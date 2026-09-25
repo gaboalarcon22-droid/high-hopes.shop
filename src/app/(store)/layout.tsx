@@ -1,6 +1,7 @@
 import { StoreHeader } from '@/components/layout/store-header'
 import { db } from '@/lib/db'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
+import { getWhatsappNumber } from '@/lib/whatsapp'
 import { LOGO_SIZE_PX, parseLogoTamano, headerOffsetPx } from '@/lib/logo'
 
 export const dynamic = 'force-dynamic'
@@ -9,6 +10,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_FOOTER', 'LOGO_URL', 'LOGO_TAMANO'] } } })
   const configMap = Object.fromEntries(configs.map(c => [c.clave, c.valor]))
   const fondoFooter = fondoToStyle(parseFondo('FONDO_FOOTER', configMap.FONDO_FOOTER))
+  const whatsapp = await getWhatsappNumber()
   const logoUrl = configMap.LOGO_URL || undefined
   const logoTamano = parseLogoTamano(configMap.LOGO_TAMANO)
   const logoFooterHeight = LOGO_SIZE_PX[logoTamano].footer
@@ -78,7 +80,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
               <h4 className="footer-section-title">Contacto</h4>
               <p style={{ fontSize: '0.87rem', color: '#888', marginBottom: 14 }}>¿Dudas sobre un producto?</p>
               <a
-                href={`https://wa.me/5491100000000?text=Hola,%20quiero%20consultar%20sobre%20un%20producto`}
+                href={`https://wa.me/${whatsapp}?text=Hola,%20quiero%20consultar%20sobre%20un%20producto`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-wa-btn"
@@ -106,7 +108,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
 
       {/* Botón flotante WhatsApp */}
       <a
-        href="https://wa.me/5491100000000?text=Hola%2C%20quiero%20consultar%20sobre%20un%20producto"
+        href={`https://wa.me/${whatsapp}?text=Hola%2C%20quiero%20consultar%20sobre%20un%20producto`}
         target="_blank"
         rel="noopener noreferrer"
         className="wa-float-btn"

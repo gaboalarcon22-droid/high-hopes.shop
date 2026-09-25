@@ -1,6 +1,7 @@
 import { db } from '@/lib/db'
 import { notFound } from 'next/navigation'
 import { formatPrecio } from '@/lib/utils'
+import { getWhatsappNumber } from '@/lib/whatsapp'
 import { ProductoDetalle } from '@/components/tienda/producto-detalle'
 
 interface Props {
@@ -43,6 +44,7 @@ export default async function ProductoPage({ params }: Props) {
         producto={producto}
         imagenes={imagenes}
         relacionados={relacionados}
+        whatsappNumber={await getWhatsappNumber()}
       />
     </div>
   )

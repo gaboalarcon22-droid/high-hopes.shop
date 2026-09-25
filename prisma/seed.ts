@@ -26,24 +26,30 @@ async function main() {
   }
   console.log(`✅ ${CATEGORIAS.length} categorías creadas`)
 
-  const hash = await bcrypt.hash('HighHopes2026!', 12)
+  // En producción definir ADMIN_EMAIL y ADMIN_PASSWORD; sin ellas se usan las credenciales de prueba.
+  const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@highhopes.store'
+  const adminPass = process.env.ADMIN_PASSWORD ?? 'HighHopes2026!'
+  const enProd = process.env.NODE_ENV === 'production'
+  const hash = await bcrypt.hash(adminPass, 12)
   await db.usuario.upsert({
-    where: { email: 'admin@highhopes.store' },
+    where: { email: adminEmail },
     update: {},
-    create: { email: 'admin@highhopes.store', password: hash, nombre: 'Administrador', rol: 'ADMIN' },
+    create: { email: adminEmail, password: hash, nombre: 'Administrador', rol: 'ADMIN' },
   })
 
-  const hashOp = await bcrypt.hash('Operador2026!', 12)
-  await db.usuario.upsert({
-    where: { email: 'operador@highhopes.store' },
-    update: {},
-    create: { email: 'operador@highhopes.store', password: hashOp, nombre: 'Operador Demo', rol: 'OPERADOR' },
-  })
+  if (!enProd) {
+    const hashOp = await bcrypt.hash('Operador2026!', 12)
+    await db.usuario.upsert({
+      where: { email: 'operador@highhopes.store' },
+      update: {},
+      create: { email: 'operador@highhopes.store', password: hashOp, nombre: 'Operador Demo', rol: 'OPERADOR' },
+    })
+  }
   console.log('✅ Usuarios creados')
 
   console.log('\n📋 Accesos:')
-  console.log('  Admin: admin@highhopes.store / HighHopes2026!')
-  console.log('  Operador: operador@highhopes.store / Operador2026!')
+  console.log(enProd ? `  Admin: ${adminEmail}` : `  Admin: ${adminEmail} / ${adminPass}
+  Operador: operador@highhopes.store / Operador2026!`)
   console.log('\n  Tienda: http://localhost:3001/tienda')
   console.log('  Admin:  http://localhost:3001/admin')
   console.log('\n  ⚠️  Sin productos demo — cargar desde /admin/productos/nuevo')

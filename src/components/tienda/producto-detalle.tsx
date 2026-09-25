@@ -11,12 +11,13 @@ import type { Mockup3DConfig } from '@/components/mockup3d/Mockup3DModal'
 import { parseFondoValue, fondoToStyle, FONDO_PRODUCTO_DEFAULT } from '@/lib/fondos'
 
 interface Props {
+  whatsappNumber: string
   producto: Producto & { categoria: Categoria; variantes: Variante[] }
   imagenes: string[]
   relacionados: (Producto & { categoria: Categoria })[]
 }
 
-export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
+export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumber }: Props) {
   const mockup3d: Mockup3DConfig | null = producto.mockup3d ? JSON.parse(producto.mockup3d) : null
   const fondoProducto = producto.fondo ? parseFondoValue(producto.fondo, FONDO_PRODUCTO_DEFAULT) : null
   const [imagenActiva, setImagenActiva] = useState(0)
@@ -33,7 +34,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
   const whatsappMsg = encodeURIComponent(
     `Hola! Quiero finalizar la compra de: *${producto.nombre}*${varianteActiva ? ` (${varianteActiva.nombre}: ${varianteActiva.valor})` : ''}. Cantidad: ${cantidad}. Precio: $${precioFinal.toLocaleString('es-AR')}. ¿Cómo seguimos?`
   )
-  const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '5491100000000'}?text=${whatsappMsg}`
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMsg}`
 
   return (
     <div>

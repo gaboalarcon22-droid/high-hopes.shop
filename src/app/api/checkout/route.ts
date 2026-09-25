@@ -1,3 +1,4 @@
+import { getWhatsappNumber } from '@/lib/whatsapp'
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { checkoutSchema } from '@/lib/validations'
@@ -152,7 +153,7 @@ export async function POST(req: NextRequest) {
   // ── WhatsApp URL ───────────────────────────────────────────────
   let whatsappUrl: string | undefined
   if (metodoPago === 'WHATSAPP') {
-    const numero = process.env.WHATSAPP_NUMBER ?? '5491100000000'
+    const numero = await getWhatsappNumber()
     whatsappUrl = generarMensajeWhatsApp(
       itemsVerificados.map(i => ({
         nombre: i.nombreSnap,
