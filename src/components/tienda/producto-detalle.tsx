@@ -135,28 +135,37 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
             {producto.categoria.nombre}
           </span>
 
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#fff', lineHeight: 1.2, marginBottom: 8 }}>
-            {producto.nombre}
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', columnGap: 16, rowGap: 4, marginBottom: 12 }}>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>
+              {producto.nombre}
+            </h1>
+            <span style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+              <span style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fff' }}>{formatPrecio(precioFinal)}</span>
+              {producto.precioAnterior && (
+                <span style={{ fontSize: '1rem', color: '#555', textDecoration: 'line-through' }}>
+                  {formatPrecio(producto.precioAnterior)}
+                </span>
+              )}
+            </span>
+          </div>
 
           {producto.marca && (
-            <p style={{ fontSize: '0.88rem', color: '#888', marginBottom: 16 }}>
+            <p style={{ fontSize: '0.88rem', color: '#888', marginBottom: 12 }}>
               Marca: <span style={{ color: '#cccccc', fontWeight: 500 }}>{producto.marca}</span>
             </p>
           )}
 
-          {/* Precio */}
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
-            <span style={{ fontSize: '2rem', fontWeight: 800, color: '#fff' }}>{formatPrecio(precioFinal)}</span>
-            {producto.precioAnterior && (
-              <span style={{ fontSize: '1.1rem', color: '#555', textDecoration: 'line-through' }}>
-                {formatPrecio(producto.precioAnterior)}
-              </span>
-            )}
-          </div>
-
+          {/* Descripción */}
+          {producto.descripcion && (
+            <div className="pdp-desc" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 16, marginBottom: 20 }}>
+              <h3 style={{ fontWeight: 700, color: '#fff', fontSize: '1rem', marginBottom: 12 }}>Descripción</h3>
+              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.8, whiteSpace: 'pre-line' }}>
+                {producto.descripcion}
+              </p>
+            </div>
+          )}
           {/* Stock */}
-          <div style={{ marginBottom: 20 }}>
+          <div style={{ marginBottom: 14 }}>
             {producto.stock > 0 ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.9rem', color: '#c6ff1a', fontWeight: 600 }}>
                 <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#c6ff1a', flexShrink: 0 }} />
@@ -252,15 +261,6 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
             </a>
           </div>
 
-          {/* Descripción */}
-          {producto.descripcion && (
-            <div className="pdp-desc" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 20 }}>
-              <h3 style={{ fontWeight: 700, color: '#fff', fontSize: '1rem', marginBottom: 12 }}>Descripción</h3>
-              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.8, whiteSpace: 'pre-line' }}>
-                {producto.descripcion}
-              </p>
-            </div>
-          )}
         </div>
       </div>
 
