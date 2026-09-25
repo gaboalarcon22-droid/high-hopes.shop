@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { formatPrecio } from '@/lib/utils'
 import { ProductoCard } from '@/components/tienda/producto-card'
-import { MessageCircle, ChevronLeft, Minus, Plus, Rotate3d, Image as ImageIcon } from 'lucide-react'
+import { MessageCircle, ChevronLeft, Minus, Plus } from 'lucide-react'
 import type { Producto, Categoria, Variante } from '@prisma/client'
 import { ProductMockupViewer } from '@/components/mockup3d/ProductMockupViewer'
 import type { Mockup3DConfig } from '@/components/mockup3d/Mockup3DModal'
@@ -21,7 +21,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
   const fondoProducto = producto.fondo ? parseFondoValue(producto.fondo, FONDO_PRODUCTO_DEFAULT) : null
   const [imagenActiva, setImagenActiva] = useState(0)
   // Si el producto tiene mockup 3D, arranca mostrando el 3D en vez de la foto.
-  const [modo3D, setModo3D] = useState(!!mockup3d)
+  const modo3D = !!mockup3d
   const [varianteId, setVarianteId] = useState<string | undefined>()
   const [cantidad, setCantidad] = useState(1)
 
@@ -44,7 +44,14 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
           .pdp-thumbs { flex-direction: row !important; width: 100% !important; overflow-x: auto !important; }
           .pdp-thumbs button { width: 64px !important; flex-shrink: 0; }
           .pdp-main-img { max-height: none !important; }
+          .pdp-3d .pdp-main-img { height: auto !important; width: 100% !important; }
+          .pdp-3d .pdp-info { height: auto !important; }
+          .pdp-3d .pdp-desc { overflow: visible !important; }
         }
+        .pdp-3d { --pdp-h: min(calc(100vh - 150px), 680px); }
+        .pdp-3d .pdp-main-img { height: var(--pdp-h); width: calc(var(--pdp-h) * 0.8); flex: none !important; max-height: none !important; }
+        .pdp-3d .pdp-info { height: var(--pdp-h); }
+        .pdp-3d .pdp-desc { flex: 1; min-height: 0; overflow-y: auto; }
       `}</style>
       {/* Breadcrumb */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#888', marginBottom: 32 }}>
@@ -63,10 +70,10 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
         <span style={{ color: '#cccccc', fontWeight: 500 }}>{producto.nombre}</span>
       </nav>
 
-      <div className="pdp-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(280px, 1fr)', gap: 40, alignItems: 'flex-start' }}>
+      <div className={`pdp-grid${modo3D ? ' pdp-3d' : ''}`} style={{ display: 'grid', gridTemplateColumns: modo3D ? 'auto minmax(0, 1fr)' : 'minmax(0, 2fr) minmax(280px, 1fr)', gap: 40, alignItems: 'flex-start', ...(modo3D ? { maxWidth: 1100, margin: '0 auto' } : {}) }}>
         {/* Galería — imagen grande + riel de miniaturas, sticky mientras se scrollea la info */}
         <div className="pdp-gallery" style={{ position: 'sticky', top: 88, display: 'flex', gap: 12 }}>
-          {imagenes.length > 1 && (
+          {!modo3D && imagenes.length > 1 && (
             <div className="pdp-thumbs" style={{ display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0, width: 76 }}>
               {imagenes.map((img, i) => (
                 <button
@@ -90,22 +97,6 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
             border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            {mockup3d && (
-              <button
-                type="button"
-                onClick={() => setModo3D(m => !m)}
-                style={{
-                  position: 'absolute', top: 12, right: 12, zIndex: 5,
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  padding: '8px 14px', borderRadius: 999, border: 'none', cursor: 'pointer',
-                  background: modo3D ? '#0a0a0a' : '#c6ff1a',
-                  color: modo3D ? '#c6ff1a' : '#0a0a0a',
-                  fontSize: '0.78rem', fontWeight: 700,
-                }}
-              >
-                {modo3D ? <><ImageIcon size={14} /> Ver foto</> : <><Rotate3d size={14} /> Ver en 3D</>}
-              </button>
-            )}
             {modo3D && mockup3d ? (
               <ProductMockupViewer config={mockup3d} />
             ) : imagenes[imagenActiva] ? (
@@ -133,7 +124,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
         </div>
 
         {/* Info */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className="pdp-info" style={{ display: 'flex', flexDirection: 'column' }}>
           {/* Badge categoría */}
           <span style={{
             display: 'inline-block', width: 'fit-content', marginBottom: 12,
@@ -235,7 +226,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
           </div>
 
           {/* Botón WhatsApp */}
-          <div style={{ marginBottom: 32 }}>
+          <div style={{ marginBottom: 24 }}>
             <a
               href={producto.stock === 0 ? undefined : whatsappUrl}
               target="_blank"
@@ -263,7 +254,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados }: Props) {
 
           {/* Descripción */}
           {producto.descripcion && (
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 24 }}>
+            <div className="pdp-desc" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 20 }}>
               <h3 style={{ fontWeight: 700, color: '#fff', fontSize: '1rem', marginBottom: 12 }}>Descripción</h3>
               <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.8, whiteSpace: 'pre-line' }}>
                 {producto.descripcion}
