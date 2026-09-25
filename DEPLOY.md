@@ -24,11 +24,17 @@ git push -u origin master
 4. Primer arranque: en el shell de Railway correr `npm run db:seed` una vez (crea categorías y el admin), y después borrar `ADMIN_PASSWORD`.
 5. Start command ya definido en `railway.json` (`prisma db push && next start`).
 
-## 3. Dominio (Cloudflare)
-1. Comprar/registrar en Cloudflare Registrar (o transferir el dominio a Cloudflare).
-2. Railway → Settings → Networking → Custom Domain → agregar `dominio.com` y `www.dominio.com`; Railway muestra el CNAME destino.
-3. Cloudflare → DNS: CNAME `@` (y `www`) → el destino de Railway (proxy activado).
-4. Cloudflare → SSL/TLS → **Full (strict)**.
+## 3. Dominio (registrado en GoDaddy)
+**Opción A (recomendada): dejar el dominio en GoDaddy y usar DNS de Cloudflare**
+1. Cloudflare → Add a site → `highhopes.shop` (plan Free). Cloudflare da 2 nameservers.
+2. GoDaddy → Mis productos → Dominio → DNS → Nameservers → *Cambiar* → "Introducir mis propios nameservers" → pegar los 2 de Cloudflare. (Propaga en minutos a unas horas.)
+3. Railway → Settings → Networking → Custom Domain → agregar `highhopes.shop` y `www.highhopes.shop`; Railway muestra el CNAME destino.
+4. Cloudflare → DNS: CNAME `@` y `www` → destino de Railway (Cloudflare permite CNAME en la raíz).
+5. Cloudflare → SSL/TLS → **Full (strict)**.
+
+**Opción B: todo en GoDaddy**
+- DNS de GoDaddy: CNAME `www` → destino de Railway.
+- GoDaddy no permite CNAME en la raíz (`@`): configurar "Reenvío de dominio" de `highhopes.shop` → `https://www.highhopes.shop` (301). Menos limpio y sin protección de Cloudflare.
 
 ## 4. Después de subir
 - Entrar a `/admin`, cambiar la contraseña, cargar logo (Configuración → Logo, tamaño Grande), WhatsApp y productos.
