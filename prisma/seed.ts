@@ -29,8 +29,28 @@ async function main() {
   // En producción definir ADMIN_EMAIL y ADMIN_PASSWORD; sin ellas se usan las credenciales de prueba.
   const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@highhopes.store'
   const adminPass = process.env.ADMIN_PASSWORD ?? 'HighHopes2026!'
-  const enProd = process.env.NODE_ENV === 'production'
-  if (enProd && !process.env.ADMIN_PASSWORD) {
+  const enProd = process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production'
+  const emailValido = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(adminEmail)
+  if (enProd) {
+    // Limpia usuarios de prueba / con datos inválidos que hayan quedado de arranques anteriores.
+    try {
+      await db.usuario.deleteMany({
+        where: {
+          email: { not: adminEmail },
+          OR: [
+            { email: 'operador@highhopes.store' },
+            { email: 'admin@highhopes.store' },
+            { email: { contains: '<' } },
+          ],
+        },
+      })
+    } catch (e) {
+      console.log('ℹ️  No se pudieron limpiar usuarios de prueba:', (e as Error).message)
+    }
+  }
+  if (enProd && !emailValido && process.env.ADMIN_EMAIL) {
+    console.log('⚠️  ADMIN_EMAIL no es un mail válido: no se crea el admin')
+  } else if (enProd && !process.env.ADMIN_PASSWORD) {
     console.log('ℹ️  ADMIN_PASSWORD no definida: no se crea/modifica el admin')
   } else {
     const hash = await bcrypt.hash(adminPass, 12)
