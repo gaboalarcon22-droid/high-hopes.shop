@@ -56,7 +56,8 @@ async function main() {
     const hash = await bcrypt.hash(adminPass, 12)
     await db.usuario.upsert({
       where: { email: adminEmail },
-      update: {},
+      // Con ADMIN_PASSWORD definida siempre se aplica: sirve para recuperar el acceso.
+      update: enProd ? { password: hash, activo: true, rol: 'ADMIN' } : {},
       create: { email: adminEmail, password: hash, nombre: 'Administrador', rol: 'ADMIN' },
     })
   }
