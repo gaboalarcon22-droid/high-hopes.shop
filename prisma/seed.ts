@@ -27,8 +27,11 @@ async function main() {
   console.log(`✅ ${CATEGORIAS.length} categorías creadas`)
 
   // En producción definir ADMIN_EMAIL y ADMIN_PASSWORD; sin ellas se usan las credenciales de prueba.
-  const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@highhopes.store'
-  const adminPass = process.env.ADMIN_PASSWORD ?? 'HighHopes2026!'
+  // Se limpian espacios y comillas pegadas por error, y el mail va en minúsculas porque el login también lo pasa a minúsculas.
+  const limpiar = (v?: string) => (v ?? '').trim().replace(/^["']+|["']+$/g, '').trim()
+  const adminEmail = (limpiar(process.env.ADMIN_EMAIL) || 'admin@highhopes.store').toLowerCase()
+  const adminPass = limpiar(process.env.ADMIN_PASSWORD) || 'HighHopes2026!'
+  const hayAdminPass = !!limpiar(process.env.ADMIN_PASSWORD)
   const enProd = process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production'
   const emailValido = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(adminEmail)
   if (enProd) {
@@ -48,9 +51,9 @@ async function main() {
       console.log('ℹ️  No se pudieron limpiar usuarios de prueba:', (e as Error).message)
     }
   }
-  if (enProd && !emailValido && process.env.ADMIN_EMAIL) {
+  if (enProd && !emailValido && limpiar(process.env.ADMIN_EMAIL)) {
     console.log('⚠️  ADMIN_EMAIL no es un mail válido: no se crea el admin')
-  } else if (enProd && !process.env.ADMIN_PASSWORD) {
+  } else if (enProd && !hayAdminPass) {
     console.log('ℹ️  ADMIN_PASSWORD no definida: no se crea/modifica el admin')
   } else {
     const hash = await bcrypt.hash(adminPass, 12)
