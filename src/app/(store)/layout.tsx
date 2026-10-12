@@ -20,7 +20,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   const headerOffset = headerOffsetPx(logoTamano, false)
 
   return (
-    <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0e0e0e' }}>
+    <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--hc-dark)' }}>
       <StoreHeader />
       <main style={{ flex: 1, paddingTop: headerOffset }}>
         {children}
@@ -36,14 +36,16 @@ export default async function StoreLayout({ children }: { children: React.ReactN
               <div style={{ marginBottom: 12 }}>
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={logoUrl} alt="High Hopes" style={{ height: logoFooterHeight, width: 'auto', maxWidth: logoFooterMaxWidth, objectFit: 'contain', display: 'block' }} />
+                  <span role="img" aria-label="High Hopes" className="logo-tinta" style={{ ['--logo-src' as string]: `url("${logoUrl}")` }}>
+                    <img src={logoUrl} alt="" style={{ height: logoFooterHeight, width: 'auto', maxWidth: logoFooterMaxWidth, objectFit: 'contain', display: 'block', visibility: 'hidden' }} />
+                  </span>
                 ) : (
                   <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff' }}>
-                    High<span style={{ color: '#c6ff1a' }}> Hopes</span>
+                    High<span style={{ color: '#e84545' }}> Hopes</span>
                   </span>
                 )}
               </div>
-              <p style={{ fontSize: '0.87rem', color: '#888', lineHeight: 1.7 }}>
+              <p style={{ fontSize: '0.87rem', color: '#b8b1a6', lineHeight: 1.7 }}>
                 Remeras, buzos y estampas personalizadas — diseñá tu mockup 3D en tiempo real.
               </p>
             </div>
@@ -78,7 +80,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
             {/* Contacto */}
             <div>
               <h4 className="footer-section-title">Contacto</h4>
-              <p style={{ fontSize: '0.87rem', color: '#888', marginBottom: 14 }}>¿Dudas sobre un producto?</p>
+              <p style={{ fontSize: '0.87rem', color: '#b8b1a6', marginBottom: 14 }}>¿Dudas sobre un producto?</p>
               <a
                 href={`https://wa.me/${whatsapp}?text=Hola,%20quiero%20consultar%20sobre%20un%20producto`}
                 target="_blank"
@@ -95,7 +97,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
 
           {/* Bottom bar */}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-            <p style={{ fontSize: '0.8rem', color: '#555' }}>
+            <p style={{ fontSize: '0.8rem', color: '#9a948a' }}>
               © {new Date().getFullYear()} High Hopes
             </p>
             <div style={{ display: 'flex', gap: 20 }}>
@@ -125,23 +127,23 @@ export default async function StoreLayout({ children }: { children: React.ReactN
           font-weight: 700;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: #555;
+          color: #9a948a;
           margin-bottom: 16px;
         }
         .footer-link {
           font-size: 0.87rem;
-          color: #888;
+          color: #b8b1a6;
           text-decoration: none;
           transition: color 0.2s;
         }
-        .footer-link:hover { color: #c6ff1a; }
+        .footer-link:hover { color: #e84545; }
         .footer-legal-link {
           font-size: 0.8rem;
-          color: #555;
+          color: #9a948a;
           text-decoration: none;
           transition: color 0.2s;
         }
-        .footer-legal-link:hover { color: #888; }
+        .footer-legal-link:hover { color: #b8b1a6; }
         .wa-float-btn {
           position: fixed;
           bottom: 28px;
@@ -186,14 +188,14 @@ export default async function StoreLayout({ children }: { children: React.ReactN
           gap: 8px;
           padding: 9px 18px;
           border-radius: 10px;
-          background: #1e7a4a;
+          background: #c4262e;
           color: #fff;
           font-size: 0.85rem;
           font-weight: 600;
           text-decoration: none;
           transition: background 0.2s;
         }
-        .footer-wa-btn:hover { background: #25d366; }
+        .footer-wa-btn:hover { background: #a81f27; }
       `}</style>
     </div>
   )

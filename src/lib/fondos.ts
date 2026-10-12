@@ -18,9 +18,9 @@ export const FONDO_KEYS = ['FONDO_HERO', 'FONDO_GRILLA', 'FONDO_FOOTER'] as cons
 export type FondoKey = (typeof FONDO_KEYS)[number]
 
 export const FONDO_DEFAULTS: Record<FondoKey, FondoBlock> = {
-  FONDO_HERO: { tipo: 'color', color: '#0e0e0e', color2: '#161616', angulo: 135, imagenUrl: '', overlay: 55 },
-  FONDO_GRILLA: { tipo: 'color', color: '#0e0e0e', color2: '#161616', angulo: 135, imagenUrl: '', overlay: 55 },
-  FONDO_FOOTER: { tipo: 'color', color: '#111111', color2: '#0a0a0a', angulo: 135, imagenUrl: '', overlay: 55 },
+  FONDO_HERO: { tipo: 'color', color: '#0c0c0c', color2: '#161514', angulo: 135, imagenUrl: '', overlay: 55 },
+  FONDO_GRILLA: { tipo: 'color', color: '#0c0c0c', color2: '#161514', angulo: 135, imagenUrl: '', overlay: 55 },
+  FONDO_FOOTER: { tipo: 'color', color: '#161514', color2: '#0c0c0c', angulo: 135, imagenUrl: '', overlay: 55 },
 }
 
 // Versión genérica: parsea un FondoBlock guardado, con el default que se le pase.
@@ -42,7 +42,7 @@ export function parseFondo(key: FondoKey, raw: string | undefined | null): Fondo
 
 // Default para el fondo personalizado de un producto individual.
 export const FONDO_PRODUCTO_DEFAULT: FondoBlock = {
-  tipo: 'color', color: '#131313', color2: '#1c1c1c', angulo: 135, imagenUrl: '', overlay: 40,
+  tipo: 'color', color: '#161514', color2: '#1e1c1a', angulo: 135, imagenUrl: '', overlay: 40,
 }
 
 // Convierte un FondoBlock en estilos CSS listos para usar en un contenedor.

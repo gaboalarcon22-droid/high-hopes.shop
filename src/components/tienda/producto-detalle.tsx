@@ -57,13 +57,13 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
       {/* Breadcrumb */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#888', marginBottom: 32 }}>
         <Link href="/tienda" style={{ color: '#888', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#c6ff1a')}
+          onMouseEnter={e => (e.currentTarget.style.color = '#e84545')}
           onMouseLeave={e => (e.currentTarget.style.color = '#888')}>
           <ChevronLeft style={{ width: 15, height: 15 }} /> Tienda
         </Link>
         <span style={{ color: '#444' }}>/</span>
         <Link href={`/tienda?cat=${producto.categoria.slug}`} style={{ color: '#888', textDecoration: 'none' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#c6ff1a')}
+          onMouseEnter={e => (e.currentTarget.style.color = '#e84545')}
           onMouseLeave={e => (e.currentTarget.style.color = '#888')}>
           {producto.categoria.nombre}
         </Link>
@@ -82,8 +82,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
                   onClick={() => setImagenActiva(i)}
                   style={{
                     flexShrink: 0, width: 76, aspectRatio: '4/5', borderRadius: 8, overflow: 'hidden',
-                    border: `2px solid ${imagenActiva === i ? '#c6ff1a' : 'rgba(255,255,255,0.1)'}`,
-                    background: '#131313', cursor: 'pointer', padding: 0,
+                    border: `2px solid ${imagenActiva === i ? '#e84545' : 'rgba(255,255,255,0.1)'}`,
+                    background: '#161514', cursor: 'pointer', padding: 0,
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -94,7 +94,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
           )}
           <div className="pdp-main-img" style={{
             position: 'relative', flex: 1, aspectRatio: '4/5', maxHeight: 'min(64vh, 560px)', borderRadius: 12,
-            ...(fondoProducto ? fondoToStyle(fondoProducto) : { background: modo3D ? '#e9e9e9' : '#131313' }),
+            ...(fondoProducto ? fondoToStyle(fondoProducto) : { background: modo3D ? '#e9e9e9' : '#161514' }),
             border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
@@ -130,8 +130,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
           <span style={{
             display: 'inline-block', width: 'fit-content', marginBottom: 12,
             padding: '4px 12px', borderRadius: 999,
-            background: 'rgba(198,255,26,0.12)', border: '1px solid rgba(198,255,26,0.25)',
-            color: '#c6ff1a', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.03em',
+            background: 'rgba(232,69,69,0.14)', border: '1px solid rgba(232,69,69,0.3)',
+            color: '#e84545', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.03em',
           }}>
             {producto.categoria.nombre}
           </span>
@@ -143,7 +143,7 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
             <span style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
               <span style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fff' }}>{formatPrecio(precioFinal)}</span>
               {producto.precioAnterior && (
-                <span style={{ fontSize: '1rem', color: '#555', textDecoration: 'line-through' }}>
+                <span style={{ fontSize: '1rem', color: '#9a948a', textDecoration: 'line-through' }}>
                   {formatPrecio(producto.precioAnterior)}
                 </span>
               )}
@@ -168,8 +168,8 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
           {/* Stock */}
           <div style={{ marginBottom: 14 }}>
             {producto.stock > 0 ? (
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.9rem', color: '#c6ff1a', fontWeight: 600 }}>
-                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#c6ff1a', flexShrink: 0 }} />
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.9rem', color: '#e84545', fontWeight: 600 }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#e84545', flexShrink: 0 }} />
                 En stock ({producto.stock} disponibles)
               </span>
             ) : (
@@ -194,9 +194,9 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
                     style={{
                       padding: '6px 14px', borderRadius: 8, fontSize: '0.88rem', fontWeight: 600,
                       cursor: 'pointer', transition: 'all 0.2s',
-                      border: `2px solid ${varianteId === v.id ? '#c6ff1a' : 'rgba(255,255,255,0.12)'}`,
-                      background: varianteId === v.id ? 'rgba(198,255,26,0.12)' : 'transparent',
-                      color: varianteId === v.id ? '#c6ff1a' : '#ccc',
+                      border: `2px solid ${varianteId === v.id ? '#e84545' : 'rgba(255,255,255,0.12)'}`,
+                      background: varianteId === v.id ? 'rgba(232,69,69,0.14)' : 'transparent',
+                      color: varianteId === v.id ? '#e84545' : '#ccc',
                     }}
                   >
                     {v.valor}
@@ -249,12 +249,12 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
                   width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                   padding: '16px 0', borderRadius: 12, cursor: producto.stock === 0 ? 'not-allowed' : 'pointer',
                   border: 'none',
-                  background: producto.stock === 0 ? '#1a1a1a' : '#25D366',
-                  color: producto.stock === 0 ? '#555' : '#fff',
+                  background: producto.stock === 0 ? '#1e1c1a' : '#c4262e',
+                  color: producto.stock === 0 ? '#8a847a' : '#fff',
                   fontWeight: 700, fontSize: '1rem', transition: 'background 0.2s',
                 }}
-                onMouseEnter={e => { if (producto.stock > 0) (e.currentTarget as HTMLButtonElement).style.background = '#20bd5a' }}
-                onMouseLeave={e => { if (producto.stock > 0) (e.currentTarget as HTMLButtonElement).style.background = '#25D366' }}
+                onMouseEnter={e => { if (producto.stock > 0) (e.currentTarget as HTMLButtonElement).style.background = '#a81f27' }}
+                onMouseLeave={e => { if (producto.stock > 0) (e.currentTarget as HTMLButtonElement).style.background = '#c4262e' }}
               >
                 <MessageCircle style={{ width: 20, height: 20 }} />
                 Finalizar venta via WhatsApp

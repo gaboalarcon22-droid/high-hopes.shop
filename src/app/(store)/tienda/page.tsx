@@ -65,9 +65,11 @@ export default async function TiendaPage({ searchParams }: Props) {
         @media (max-width: 768px) {
           .productos-grid { grid-template-columns: repeat(2, 1fr) !important; column-gap: 12px !important; row-gap: 24px !important; }
         }
-        .hero-logo-img { height:var(--hero-logo-h); width:auto; max-width:var(--hero-logo-w); object-fit:contain; margin:0 auto 18px; display:block; }
+        .hero-logo-img { height:var(--hero-logo-h); width:auto; max-width:var(--hero-logo-w); object-fit:contain; margin:0; display:block; visibility:hidden; }
+        .hero-logo-tinta { display:block; width:fit-content; margin:0 auto 18px; }
         @media (max-width: 768px) {
-          .hero-logo-img { height:var(--hero-logo-h-mobile); max-width:var(--hero-logo-w-mobile); margin-bottom:14px; }
+          .hero-logo-img { height:var(--hero-logo-h-mobile); max-width:var(--hero-logo-w-mobile); }
+          .hero-logo-tinta { margin-bottom:14px; }
         }
       `}</style>
 
@@ -75,28 +77,30 @@ export default async function TiendaPage({ searchParams }: Props) {
       <div style={{ position: 'relative', overflow: 'hidden', paddingTop: 32, paddingBottom: 28, textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', ...fondoHero }}>
         <div style={{
           position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(198,255,26,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(198,255,26,0.03) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(242,237,228,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(242,237,228,0.035) 1px, transparent 1px)',
           backgroundSize: '64px 64px', pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse 70% 80% at 50% 100%, rgba(26,107,63,0.14) 0%, transparent 70%)',
-          pointerEvents: 'none',
         }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px' }}>
           {logoUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={logoUrl}
-              alt="High Hopes"
-              className="hero-logo-img"
-              style={{
-                ['--hero-logo-h' as string]: `${heroLogo.hero}px`,
-                ['--hero-logo-h-mobile' as string]: `${heroLogo.heroMobile}px`,
-                ['--hero-logo-w' as string]: `${heroLogo.heroMaxWidth}px`,
-                ['--hero-logo-w-mobile' as string]: `${heroLogo.heroMaxWidthMobile}px`,
-              }}
-            />
+            <span
+              role="img"
+              aria-label="High Hopes"
+              className="hero-logo-tinta logo-tinta"
+              style={{ ['--logo-src' as string]: `url("${logoUrl}")` }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={logoUrl}
+                alt=""
+                className="hero-logo-img"
+                style={{
+                  ['--hero-logo-h' as string]: `${heroLogo.hero}px`,
+                  ['--hero-logo-h-mobile' as string]: `${heroLogo.heroMobile}px`,
+                  ['--hero-logo-w' as string]: `${heroLogo.heroMaxWidth}px`,
+                  ['--hero-logo-w-mobile' as string]: `${heroLogo.heroMaxWidthMobile}px`,
+                }}
+              />
+            </span>
           )}
           {categoriaActiva && (
             <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
@@ -126,7 +130,7 @@ export default async function TiendaPage({ searchParams }: Props) {
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
             <div style={{ fontSize: 52, marginBottom: 16 }}>🔍</div>
             <p style={{ fontSize: '1rem', color: '#666', marginBottom: 16 }}>No se encontraron productos.</p>
-            <Link href="/tienda" style={{ fontSize: '0.87rem', color: '#c6ff1a', textDecoration: 'none', fontWeight: 600 }}>
+            <Link href="/tienda" style={{ fontSize: '0.87rem', color: '#e84545', textDecoration: 'none', fontWeight: 600 }}>
               Ver todos los productos →
             </Link>
           </div>

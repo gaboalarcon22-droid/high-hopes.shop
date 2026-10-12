@@ -29,7 +29,7 @@ export function StoreHeader() {
       <style>{`
         .store-nav { position:fixed; top:0; left:0; right:0; z-index:1000; transition:all 0.3s ease; }
         .store-nav.scrolled {
-          background: rgba(10,10,10,0.94);
+          background: rgba(12,12,12,0.94);
           backdrop-filter: blur(18px);
           -webkit-backdrop-filter: blur(18px);
           border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -42,8 +42,8 @@ export function StoreHeader() {
         .mobile-nav { border-top:1px solid rgba(255,255,255,0.07); margin-top:12px; padding-top:12px; display:flex; flex-direction:column; gap:4px; }
         .mobile-nav-link { padding:10px 12px; font-size:0.9rem; color:#ccc; text-decoration:none; border-radius:8px; display:block; transition:background 0.2s; }
         .mobile-nav-link:hover { background:rgba(255,255,255,0.06); color:#fff; }
-        .nav-link { font-size:0.87rem; color:#888; text-decoration:none; transition:color 0.2s; font-weight:500; }
-        .nav-link:hover { color:#fff; }
+        .nav-link { font-size:0.87rem; color:#b8b1a6; text-decoration:none; transition:color 0.2s; font-weight:500; }
+        .nav-link:hover { color:#f2ede4; }
         .cart-btn {
           position: relative;
           display: flex;
@@ -58,14 +58,14 @@ export function StoreHeader() {
           text-decoration: none;
           transition: background 0.2s, border-color 0.2s, color 0.2s;
         }
-        .cart-btn:hover { background: rgba(198,255,26,0.12); border-color: rgba(198,255,26,0.3); color: #c6ff1a; }
+        .cart-btn:hover { background: rgba(232,69,69,0.14); border-color: rgba(232,69,69,0.35); color: #e84545; }
         .cart-badge {
           position: absolute;
           top: -6px;
           right: -6px;
           min-width: 18px;
           height: 18px;
-          background: #c6ff1a;
+          background: #c4262e;
           color: #fff;
           font-size: 10px;
           font-weight: 800;
@@ -74,7 +74,7 @@ export function StoreHeader() {
           align-items: center;
           justify-content: center;
           padding: 0 4px;
-          border: 2px solid #0a0a0a;
+          border: 2px solid #0c0c0c;
           line-height: 1;
         }
       `}</style>
