@@ -130,7 +130,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
           type="email"
           value={form.STORE_EMAIL ?? ''}
           onChange={e => set('STORE_EMAIL', e.target.value)}
-          placeholder="contacto@highhopes.store"
+          placeholder="info@high-hopes.shop"
         />
       </Section>
 
@@ -156,7 +156,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
           label="Número de WhatsApp (con código de país, sin +)"
           value={form.WHATSAPP_NUMBER ?? ''}
           onChange={e => set('WHATSAPP_NUMBER', e.target.value)}
-          placeholder="5491100000000"
+          placeholder="5491125514369"
         />
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Mensaje de bienvenida</label>

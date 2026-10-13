@@ -26,6 +26,21 @@ async function main() {
   }
   console.log(`✅ ${CATEGORIAS.length} categorías creadas`)
 
+  // Contacto de la tienda: solo se completa si falta o quedó el valor de ejemplo.
+  // Lo que se edite después en Admin → Configuración no se pisa.
+  const CONTACTO: [string, string, string[]][] = [
+    ['STORE_EMAIL', 'info@high-hopes.shop', ['contacto@highhopes.store']],
+    ['WHATSAPP_NUMBER', '5491125514369', ['5491100000000']],
+  ]
+  for (const [clave, valor, ejemplos] of CONTACTO) {
+    const actual = await db.configuracion.findUnique({ where: { clave } })
+    const vacio = !actual || !actual.valor.trim() || ejemplos.includes(actual.valor.trim())
+    if (vacio) {
+      await db.configuracion.upsert({ where: { clave }, update: { valor }, create: { clave, valor } })
+      console.log(`✅ ${clave} = ${valor}`)
+    }
+  }
+
   // En producción definir ADMIN_EMAIL y ADMIN_PASSWORD; sin ellas se usan las credenciales de prueba.
   // Se limpian espacios y comillas pegadas por error, y el mail va en minúsculas porque el login también lo pasa a minúsculas.
   const limpiar = (v?: string) => (v ?? '').trim().replace(/^["']+|["']+$/g, '').trim()

@@ -3,7 +3,8 @@ import { Tracking, CookiePrefsButton } from '@/components/analytics/tracking'
 import { parseGtmId } from '@/lib/tracking'
 import { db } from '@/lib/db'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
-import { getWhatsappNumber } from '@/lib/whatsapp'
+import { getWhatsappNumber, getStoreEmail } from '@/lib/whatsapp'
+import { formatWhatsapp } from '@/lib/contacto'
 import { LOGO_SIZE_PX, parseLogoTamano, headerOffsetPx } from '@/lib/logo'
 
 export const dynamic = 'force-dynamic'
@@ -13,6 +14,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   const configMap = Object.fromEntries(configs.map(c => [c.clave, c.valor]))
   const fondoFooter = fondoToStyle(parseFondo('FONDO_FOOTER', configMap.FONDO_FOOTER))
   const whatsapp = await getWhatsappNumber()
+  const storeEmail = await getStoreEmail()
   // ID de GTM: primero el cargado en Admin → Configuración, después la variable de entorno.
   const gtmId = parseGtmId(configMap.GTM_ID) ?? parseGtmId(process.env.GTM_ID)
   const logoUrl = configMap.LOGO_URL || undefined
@@ -97,6 +99,14 @@ export default async function StoreLayout({ children }: { children: React.ReactN
             <div>
               <h4 className="footer-section-title">Contacto</h4>
               <p style={{ fontSize: '0.87rem', color: '#b8b1a6', marginBottom: 14 }}>¿Dudas sobre un producto?</p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
+                <li><a href={`mailto:${storeEmail}`} className="footer-link">{storeEmail}</a></li>
+                <li>
+                  <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="footer-link" data-wa-location="footer">
+                    {formatWhatsapp(whatsapp)}
+                  </a>
+                </li>
+              </ul>
               <a
                 href={`https://wa.me/${whatsapp}?text=Hola,%20quiero%20consultar%20sobre%20un%20producto`}
                 target="_blank"
