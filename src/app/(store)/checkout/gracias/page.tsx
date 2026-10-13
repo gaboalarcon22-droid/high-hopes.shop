@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PurchaseEvent } from '@/components/analytics/events'
 
 interface Props {
   searchParams: Promise<{ pedido?: string }>
@@ -11,6 +12,7 @@ export default async function GraciasPage({ searchParams }: Props) {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-20 text-center">
+      <PurchaseEvent pedido={pedido} />
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 mx-auto mb-6">
         <CheckCircle className="h-10 w-10 text-emerald-600" />
       </div>

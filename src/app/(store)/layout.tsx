@@ -1,4 +1,6 @@
 import { StoreHeader } from '@/components/layout/store-header'
+import { Tracking, CookiePrefsButton } from '@/components/analytics/tracking'
+import { parseGtmId } from '@/lib/tracking'
 import { db } from '@/lib/db'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
 import { getWhatsappNumber } from '@/lib/whatsapp'
@@ -7,10 +9,12 @@ import { LOGO_SIZE_PX, parseLogoTamano, headerOffsetPx } from '@/lib/logo'
 export const dynamic = 'force-dynamic'
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
-  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_FOOTER', 'LOGO_URL', 'LOGO_TAMANO'] } } })
+  const configs = await db.configuracion.findMany({ where: { clave: { in: ['FONDO_FOOTER', 'LOGO_URL', 'LOGO_TAMANO', 'GTM_ID'] } } })
   const configMap = Object.fromEntries(configs.map(c => [c.clave, c.valor]))
   const fondoFooter = fondoToStyle(parseFondo('FONDO_FOOTER', configMap.FONDO_FOOTER))
   const whatsapp = await getWhatsappNumber()
+  // ID de GTM: primero el cargado en Admin → Configuración, después la variable de entorno.
+  const gtmId = parseGtmId(configMap.GTM_ID) ?? parseGtmId(process.env.GTM_ID)
   const logoUrl = configMap.LOGO_URL || undefined
   const logoTamano = parseLogoTamano(configMap.LOGO_TAMANO)
   const logoFooterHeight = LOGO_SIZE_PX[logoTamano].footer
@@ -21,6 +25,18 @@ export default async function StoreLayout({ children }: { children: React.ReactN
 
   return (
     <div className="store-scope" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--hc-dark)' }}>
+      {gtmId && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+            title="Google Tag Manager"
+          />
+        </noscript>
+      )}
+      <Tracking gtmId={gtmId} />
       <StoreHeader />
       <main style={{ flex: 1, paddingTop: headerOffset }}>
         {children}
@@ -101,6 +117,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
               © {new Date().getFullYear()} High Hopes
             </p>
             <div style={{ display: 'flex', gap: 20 }}>
+              {gtmId && <CookiePrefsButton className="footer-legal-link" />}
               <a href="#" className="footer-legal-link">Privacidad</a>
               <a href="#" className="footer-legal-link">Términos</a>
             </div>

@@ -3,6 +3,8 @@ import { ProductoCard } from '@/components/tienda/producto-card'
 import Link from 'next/link'
 import { parseFondo, fondoToStyle } from '@/lib/fondos'
 import { LOGO_SIZE_PX, parseLogoTamano } from '@/lib/logo'
+import { ViewItemList } from '@/components/analytics/events'
+import { itemFromProducto } from '@/lib/analytics'
 
 interface Props {
   searchParams: Promise<{ cat?: string; q?: string; orden?: string }>
@@ -136,6 +138,10 @@ export default async function TiendaPage({ searchParams }: Props) {
           </div>
         ) : (
           <div className="productos-grid">
+            <ViewItemList
+              listName={q ? 'Búsqueda' : categoriaActiva?.nombre ?? 'Tienda'}
+              items={productos.map(p => itemFromProducto(p))}
+            />
             {productos.map(p => (
               <ProductoCard key={p.id} producto={p} />
             ))}

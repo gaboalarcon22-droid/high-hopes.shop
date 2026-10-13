@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCartStore } from '@/lib/cart-store'
 import { formatPrecio } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
+import { trackBeginCheckout, type TrackItem } from '@/lib/analytics'
+import { PURCHASE_KEY } from '@/components/analytics/events'
 import { CreditCard, Landmark, MessageCircle, Package } from 'lucide-react'
 
 const METODOS = [
@@ -13,6 +15,10 @@ const METODOS = [
   { id: 'TRANSFERENCIA', label: 'Transferencia bancaria', icon: Landmark, desc: 'CBU/CVU — el pedido se confirma al acreditar' },
   { id: 'WHATSAPP', label: 'Finalizar por WhatsApp', icon: MessageCircle, desc: 'Coordinás pago y envío directamente con nosotros' },
 ]
+
+function toTrackItem(i: { productoId: string; nombre: string; precio: number; cantidad: number; variante?: string }): TrackItem {
+  return { item_id: i.productoId, item_name: i.nombre, item_variant: i.variante, price: i.precio, quantity: i.cantidad }
+}
 
 export default function CheckoutPage() {
   const { items, totalPrecio, vaciar } = useCartStore()
@@ -25,6 +31,15 @@ export default function CheckoutPage() {
     nombre: '', email: '', telefono: '', empresa: '', notas: '',
     calle: '', ciudad: '', provincia: '', cp: '',
   })
+
+  const medido = useRef(false)
+  useEffect(() => {
+    if (items.length === 0 || medido.current) return
+    medido.current = true
+    trackBeginCheckout(items.map(toTrackItem))
+    // Una vez por visita al checkout, no por cada cambio del carrito.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (items.length === 0) {
     router.replace('/carrito')
@@ -60,6 +75,16 @@ export default function CheckoutPage() {
         window.location.href = data.mpUrl
         return
       }
+
+      // Para el evento `purchase` de la pantalla de gracias (el carrito se vacía antes).
+      try {
+        sessionStorage.setItem(PURCHASE_KEY, JSON.stringify({
+          transaction_id: String(data.numero),
+          value: totalPrecio(),
+          payment_type: metodoPago,
+          items: items.map(toTrackItem),
+        }))
+      } catch { /* sin sessionStorage: no se mide la compra */ }
 
       if (metodoPago === 'WHATSAPP' && data.whatsappUrl) {
         vaciar()

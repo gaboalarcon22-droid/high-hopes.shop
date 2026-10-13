@@ -1,5 +1,42 @@
 import type { NextConfig } from 'next'
 
+// Dominios de las plataformas de medición y publicidad. Si se suma otra herramienta
+// por GTM, hay que agregar acá sus dominios o el navegador la bloquea.
+const MARKETING_SCRIPTS = [
+  'https://www.googletagmanager.com',
+  'https://www.google-analytics.com',
+  'https://*.googletagmanager.com',
+  'https://www.googleadservices.com',
+  'https://googleads.g.doubleclick.net',
+  'https://*.g.doubleclick.net',
+  'https://www.google.com',
+  'https://connect.facebook.net',
+  'https://analytics.tiktok.com',
+  'https://www.clarity.ms',
+  'https://*.clarity.ms',
+].join(' ')
+
+const MARKETING_CONNECT = [
+  'https://www.google-analytics.com',
+  'https://*.google-analytics.com',
+  'https://*.analytics.google.com',
+  'https://*.googletagmanager.com',
+  'https://*.g.doubleclick.net',
+  'https://www.google.com',
+  'https://*.google.com',
+  'https://*.facebook.com',
+  'https://connect.facebook.net',
+  'https://analytics.tiktok.com',
+  'https://*.clarity.ms',
+].join(' ')
+
+const MARKETING_FRAMES = [
+  "'self'",
+  'https://www.googletagmanager.com',
+  'https://td.doubleclick.net',
+  'https://www.facebook.com',
+].join(' ')
+
 const SECURITY_HEADERS = [
   // Evita que el navegador detecte el tipo MIME incorrecto
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -18,13 +55,15 @@ const SECURITY_HEADERS = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
+      // Marketing: GTM carga el resto (GA4, Google Ads, Meta, TikTok, Clarity) desde estos dominios.
       process.env.NODE_ENV === 'development'
-        ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-        : "script-src 'self' 'unsafe-inline'",
+        ? `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${MARKETING_SCRIPTS}`
+        : `script-src 'self' 'unsafe-inline' ${MARKETING_SCRIPTS}`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self' blob: https://api.mercadopago.com",
+      `connect-src 'self' blob: https://api.mercadopago.com ${MARKETING_CONNECT}`,
+      `frame-src ${MARKETING_FRAMES}`,
       "frame-ancestors 'self'",
       "form-action 'self'",
       "base-uri 'self'",

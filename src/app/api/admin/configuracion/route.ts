@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/auth'
 import { configuracionSchema } from '@/lib/validations'
+import { parseGtmId } from '@/lib/tracking'
 
 // Claves permitidas para evitar inyección de claves arbitrarias
 const CLAVES_PERMITIDAS = [
@@ -24,6 +25,7 @@ const CLAVES_PERMITIDAS = [
   'FONDO_FOOTER',
   'LOGO_URL',
   'LOGO_TAMANO',
+  'GTM_ID',
 ] as const
 
 async function requireAdmin() {
@@ -69,6 +71,12 @@ export async function PUT(req: NextRequest) {
   const parsed = configuracionSchema.safeParse(body)
   if (!parsed.success) {
     return NextResponse.json({ error: 'Datos inválidos' }, { status: 400 })
+  }
+
+  // El ID de GTM va dentro de un <script>: solo se acepta con el formato exacto (o vacío para desactivar).
+  const gtm = parsed.data.GTM_ID
+  if (gtm !== undefined && gtm.trim() !== '' && !parseGtmId(gtm)) {
+    return NextResponse.json({ error: 'El ID de Google Tag Manager debe tener el formato GTM-XXXXXXX.' }, { status: 400 })
   }
 
   // Solo guardar claves permitidas

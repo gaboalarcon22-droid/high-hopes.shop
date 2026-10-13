@@ -218,6 +218,20 @@ export function ConfiguracionForm({ config: inicial }: Props) {
         />
       </Section>
 
+      {/* Marketing y seguimiento */}
+      <Section titulo="Marketing y seguimiento" icono={Megaphone}>
+        <Input
+          label="Google Tag Manager ID"
+          value={form.GTM_ID ?? ''}
+          onChange={e => set('GTM_ID', e.target.value.toUpperCase())}
+          placeholder="GTM-XXXXXXX"
+          autoComplete="off"
+        />
+        <p className="text-xs text-gray-500">
+          Con un ID cargado se activan el banner de cookies y los eventos de la tienda. Google Analytics, Google Ads, Meta y el resto se configuran dentro de Tag Manager. Dejalo vacío para desactivar todo.
+        </p>
+      </Section>
+
       {/* Logo de la tienda */}
       <Section titulo="Logo de la tienda" icono={ImageIcon}>
         <p className="text-xs text-gray-400 -mt-2">

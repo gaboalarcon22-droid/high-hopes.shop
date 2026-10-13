@@ -23,6 +23,7 @@ const CLAVES_PERMITIDAS = [
   'FONDO_FOOTER',
   'LOGO_URL',
   'LOGO_TAMANO',
+  'GTM_ID',
 ]
 
 export default async function ConfiguracionPage() {

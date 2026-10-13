@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { formatPrecio } from '@/lib/utils'
 import { ProductoCard } from '@/components/tienda/producto-card'
@@ -9,6 +9,7 @@ import type { Producto, Categoria, Variante } from '@prisma/client'
 import { ProductMockupViewer } from '@/components/mockup3d/ProductMockupViewer'
 import type { Mockup3DConfig } from '@/components/mockup3d/Mockup3DModal'
 import { parseFondoValue, fondoToStyle, FONDO_PRODUCTO_DEFAULT } from '@/lib/fondos'
+import { itemFromProducto, trackViewItem, trackLead, trackInteract3D } from '@/lib/analytics'
 
 interface Props {
   whatsappNumber: string
@@ -21,6 +22,14 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
   const mockup3d: Mockup3DConfig | null = producto.mockup3d ? JSON.parse(producto.mockup3d) : null
   const fondoProducto = producto.fondo ? parseFondoValue(producto.fondo, FONDO_PRODUCTO_DEFAULT) : null
   const [imagenActiva, setImagenActiva] = useState(0)
+  const interactuo3D = useRef(false)
+  const productoVisto = useRef('')
+  useEffect(() => {
+    if (productoVisto.current === producto.id) return
+    productoVisto.current = producto.id
+    trackViewItem(itemFromProducto(producto))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [producto.id])
   // Si el producto tiene mockup 3D, arranca mostrando el 3D en vez de la foto.
   const modo3D = !!mockup3d
   const [varianteId, setVarianteId] = useState<string | undefined>()
@@ -92,7 +101,15 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
               ))}
             </div>
           )}
-          <div className="pdp-main-img" style={{
+          <div
+            className="pdp-main-img"
+            onPointerDown={() => {
+              if (mockup3d && !interactuo3D.current) {
+                interactuo3D.current = true
+                trackInteract3D(itemFromProducto(producto))
+              }
+            }}
+            style={{
             position: 'relative', flex: 1, aspectRatio: '4/5', maxHeight: 'min(64vh, 560px)', borderRadius: 12,
             ...(fondoProducto ? fondoToStyle(fondoProducto) : { background: modo3D ? '#e9e9e9' : '#161514' }),
             border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden',
@@ -238,6 +255,12 @@ export function ProductoDetalle({ producto, imagenes, relacionados, whatsappNumb
           {/* Botón WhatsApp */}
           <div style={{ marginBottom: 24 }}>
             <a
+              data-wa-location="producto"
+              onClick={() => {
+                if (producto.stock > 0) {
+                  trackLead([itemFromProducto(producto, { variante: varianteActiva?.valor, cantidad, precio: precioFinal })])
+                }
+              }}
               href={producto.stock === 0 ? undefined : whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"

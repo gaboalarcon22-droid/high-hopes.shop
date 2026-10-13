@@ -2,6 +2,7 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { trackAddToCart } from '@/lib/analytics'
 
 export interface CartItem {
   productoId: string
@@ -29,6 +30,13 @@ export const useCartStore = create<CartStore>()(
       items: [],
 
       agregar: (item) => {
+        trackAddToCart({
+          item_id: item.productoId,
+          item_name: item.nombre,
+          item_variant: item.variante,
+          price: item.precio,
+          quantity: item.cantidad,
+        })
         set(state => {
           const idx = state.items.findIndex(
             i => i.productoId === item.productoId && i.varianteId === item.varianteId
