@@ -88,7 +88,7 @@ export default function CheckoutPage() {
           {/* Formulario */}
           <div className="flex-1 space-y-8">
             {/* Datos del comprador */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="rounded-xl border border-gray-200 bg-surface p-6">
               <h2 className="font-semibold text-gray-900 mb-4">Datos del comprador</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
@@ -119,7 +119,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Dirección de envío */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="rounded-xl border border-gray-200 bg-surface p-6">
               <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <Package className="h-4 w-4" /> Dirección de envío
               </h2>
@@ -153,7 +153,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Método de pago */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="rounded-xl border border-gray-200 bg-surface p-6">
               <h2 className="font-semibold text-gray-900 mb-4">Método de pago</h2>
               <div className="space-y-3">
                 {METODOS.map(m => {
@@ -163,7 +163,7 @@ export default function CheckoutPage() {
                       key={m.id}
                       className={`flex items-start gap-4 rounded-xl border-2 p-4 cursor-pointer transition-colors
                         ${metodoPago === m.id
-                          ? 'border-green-600 bg-green-50'
+                          ? 'border-brand bg-green-50'
                           : 'border-gray-200 hover:border-gray-300'}`}
                     >
                       <input
@@ -186,7 +186,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Notas */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="rounded-xl border border-gray-200 bg-surface p-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Notas del pedido (opcional)
               </label>
@@ -195,14 +195,14 @@ export default function CheckoutPage() {
                 onChange={e => setForm(f => ({ ...f, notas: e.target.value }))}
                 rows={3}
                 placeholder="Instrucciones especiales, horario de entrega, etc."
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"
               />
             </div>
           </div>
 
           {/* Sidebar resumen */}
           <div className="lg:w-80 flex-shrink-0">
-            <div className="rounded-xl border border-gray-200 bg-white p-6 sticky top-24 space-y-4">
+            <div className="rounded-xl border border-gray-200 bg-surface p-6 sticky top-24 space-y-4">
               <h2 className="font-semibold text-gray-900">Tu pedido</h2>
               <div className="space-y-2 text-sm max-h-60 overflow-y-auto">
                 {items.map(i => (

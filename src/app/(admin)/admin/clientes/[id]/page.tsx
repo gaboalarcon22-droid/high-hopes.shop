@@ -65,7 +65,7 @@ export default async function ClienteDetallePage({
           { label: 'Total gastado (aprobado)', value: formatPrecio(aprobados._sum.total ?? 0) },
           { label: 'Ticket promedio', value: stats._avg.total ? formatPrecio(stats._avg.total) : '—' },
         ].map(s => (
-          <div key={s.label} className="rounded-xl border border-gray-200 bg-white p-4 text-center">
+          <div key={s.label} className="rounded-xl border border-gray-200 bg-surface p-4 text-center">
             <div className="text-xl font-bold text-gray-900">{s.value}</div>
             <div className="text-xs text-gray-500 mt-1">{s.label}</div>
           </div>
@@ -74,7 +74,7 @@ export default async function ClienteDetallePage({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Info */}
-        <div className="rounded-xl border border-gray-200 bg-white p-5 space-y-3">
+        <div className="rounded-xl border border-gray-200 bg-surface p-5 space-y-3">
           <h2 className="font-semibold text-gray-900 text-sm">Información</h2>
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2 text-gray-600">
@@ -101,7 +101,7 @@ export default async function ClienteDetallePage({
         </div>
 
         {/* Pedidos */}
-        <div className="md:col-span-2 rounded-xl border border-gray-200 bg-white overflow-hidden">
+        <div className="md:col-span-2 rounded-xl border border-gray-200 bg-surface overflow-hidden">
           <div className="flex items-center gap-2 px-5 py-4 border-b border-gray-100">
             <ShoppingBag className="h-4 w-4 text-gray-400" />
             <h2 className="font-semibold text-gray-900 text-sm">

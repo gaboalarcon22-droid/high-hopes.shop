@@ -16,7 +16,7 @@ export default async function PedidosAdminPage() {
         <p className="text-sm text-gray-500">{pedidos.length} pedidos en total</p>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-surface rounded-xl border border-gray-200 overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-100">
             <tr>

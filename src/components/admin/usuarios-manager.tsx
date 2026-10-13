@@ -33,7 +33,7 @@ function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white rounded-xl shadow-xl w-full max-w-md">
+      <div className="relative bg-surface rounded-xl shadow-xl w-full max-w-md">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h3 className="font-semibold text-gray-900">{titulo}</h3>
           <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
@@ -184,7 +184,7 @@ export function UsuariosManager({ usuarios: inicial, sesionId }: Props) {
         <select
           value={form.rol}
           onChange={e => setForm(f => ({ ...f, rol: e.target.value as 'ADMIN' | 'OPERADOR' }))}
-          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
         >
           <option value="OPERADOR">OPERADOR — Gestiona productos y pedidos</option>
           <option value="ADMIN">ADMIN — Acceso completo</option>
@@ -216,7 +216,7 @@ export function UsuariosManager({ usuarios: inicial, sesionId }: Props) {
             type="checkbox"
             checked={form.activo}
             onChange={e => setForm(f => ({ ...f, activo: e.target.checked }))}
-            className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+            className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-accent"
             disabled={editando?.id === sesionId}
           />
           <label htmlFor="usr-activo" className="text-sm text-gray-700">
@@ -255,7 +255,7 @@ export function UsuariosManager({ usuarios: inicial, sesionId }: Props) {
         </Button>
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+      <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
         {usuarios.length === 0 ? (
           <div className="px-6 py-12 text-center text-gray-400 text-sm">Sin usuarios.</div>
         ) : (

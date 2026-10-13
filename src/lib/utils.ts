@@ -37,7 +37,7 @@ export const ESTADOS_PEDIDO = {
   CONFIRMADO: { label: 'Confirmado', color: 'bg-blue-100 text-blue-800' },
   PREPARANDO: { label: 'Preparando', color: 'bg-purple-100 text-purple-800' },
   ENVIADO: { label: 'Enviado', color: 'bg-indigo-100 text-indigo-800' },
-  ENTREGADO: { label: 'Entregado', color: 'bg-green-100 text-green-800' },
+  ENTREGADO: { label: 'Entregado', color: 'bg-emerald-100 text-emerald-800' },
   CANCELADO: { label: 'Cancelado', color: 'bg-red-100 text-red-800' },
 } as const
 

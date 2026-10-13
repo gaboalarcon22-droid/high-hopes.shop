@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const alertaCount = productosActivos.filter(p => p.stock <= p.stockMinimo).length
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="admin-root min-h-screen bg-ink">
       <AdminSidebar stockAlerta={alertaCount} />
       <div className="ml-64">
         <main className="p-6 max-w-screen-xl">

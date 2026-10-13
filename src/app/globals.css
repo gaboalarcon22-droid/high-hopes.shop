@@ -158,10 +158,87 @@
 .hc-input::placeholder { color: var(--hc-gray); }
 .hc-input:focus { border-color: var(--hc-green); }
 
-/* Admin override — the admin layout uses its own bg */
+/* ── ADMIN + CHECKOUT: mismo criterio que la tienda (paleta A, tema oscuro) ──
+   Las clases de Tailwind (gray/green/red...) leen estas variables, asi que
+   re-mapearlas aca cambia todo el panel sin tocar cada componente.
+   - gray: escala invertida (900 = hueso, 50 = casi tinta)
+   - green: es el color de marca -> rojo del logo
+   - emerald: se usa para exito real (entregado, aprobado, guardado) */
+@theme {
+  --color-ink: #0c0c0c;
+  --color-surface: #161514;
+  --color-surface-2: #1e1c1a;
+  --color-edge: #2e2b28;
+  --color-bone: #f2ede4;
+  --color-brand: #c4262e;
+  --color-brand-dark: #a81f27;
+  --color-accent: #e84545;
+  --color-danger: #c4302b;
+  --color-danger-dark: #a52620;
+}
+.admin-root,
+.store-scope {
+  color-scheme: dark;
+  --color-gray-50: #1d1b19;
+  --color-gray-100: #242220;
+  --color-gray-200: #2e2b28;
+  --color-gray-300: #3f3b37;
+  --color-gray-400: #8a847a;
+  --color-gray-500: #9a948a;
+  --color-gray-600: #b8b1a6;
+  --color-gray-700: #cfc9bf;
+  --color-gray-800: #e3ddd2;
+  --color-gray-900: #f2ede4;
+
+  --color-green-50: #2a1012;
+  --color-green-100: #3a1518;
+  --color-green-200: #5c1c21;
+  --color-green-300: #7d252b;
+  --color-green-400: #a8333a;
+  --color-green-500: #c4262e;
+  --color-green-600: #e84545;
+  --color-green-700: #ee6a6a;
+  --color-green-800: #f48c8c;
+  --color-green-900: #f9b4b4;
+
+  --color-emerald-50: #10261a;
+  --color-emerald-100: #14301f;
+  --color-emerald-200: #1f4a30;
+  --color-emerald-600: #3fbf6f;
+  --color-emerald-700: #5fcf80;
+  --color-emerald-800: #7fdc9a;
+  --color-emerald-900: #a8ebbc;
+
+  --color-red-50: #3a1512;
+  --color-red-100: #4a1a17;
+  --color-red-200: #6b2420;
+  --color-red-300: #8a2f2a;
+  --color-red-400: #f2766c;
+  --color-red-500: #ef5a50;
+  --color-red-600: #ff6b63;
+  --color-red-700: #ff8f87;
+  --color-red-800: #ffb0aa;
+
+  --color-yellow-100: #33290d;
+  --color-yellow-700: #e3b341;
+  --color-yellow-800: #ecc766;
+  --color-amber-50: #2e2308;
+  --color-amber-200: #5a4410;
+  --color-amber-700: #e3b341;
+  --color-amber-800: #ecc766;
+  --color-blue-50: #0f2236;
+  --color-blue-100: #12304d;
+  --color-blue-600: #6aa9ff;
+  --color-blue-700: #8bbcff;
+  --color-blue-800: #a8cdff;
+  --color-purple-100: #2a1b3d;
+  --color-purple-800: #cfb4ff;
+  --color-indigo-100: #1a2040;
+  --color-indigo-800: #b4bcff;
+}
 .admin-root {
-  background: #f3f4f6;
-  color: #111827;
+  background: #0c0c0c;
+  color: #f2ede4;
 }
 
 /* ── STORE INTERACTIVE HOVER CLASSES ─────────── */

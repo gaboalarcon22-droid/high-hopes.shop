@@ -75,8 +75,8 @@ export function FondoEditor({ titulo, descripcion, value, onChange }: Props) {
             onClick={() => set({ tipo: t.value })}
             className={`flex-1 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
               value.tipo === t.value
-                ? 'border-green-600 bg-green-600 text-white'
-                : 'border-gray-200 bg-white text-gray-600 hover:border-green-400'
+                ? 'border-brand bg-brand text-bone'
+                : 'border-gray-200 bg-surface text-gray-600 hover:border-green-400'
             }`}
           >
             {t.label}
@@ -101,7 +101,7 @@ export function FondoEditor({ titulo, descripcion, value, onChange }: Props) {
           <div className="flex items-center gap-3">
             <input type="color" value={value.color} onChange={e => set({ color: e.target.value })} className="h-9 w-14 rounded border border-gray-200 cursor-pointer" />
             <span className="text-xs text-gray-500">{value.color}</span>
-            <span className="text-xs text-gray-300">→</span>
+            <span className="text-xs text-gray-400">→</span>
             <input type="color" value={value.color2} onChange={e => set({ color2: e.target.value })} className="h-9 w-14 rounded border border-gray-200 cursor-pointer" />
             <span className="text-xs text-gray-500">{value.color2}</span>
           </div>
@@ -133,7 +133,7 @@ export function FondoEditor({ titulo, descripcion, value, onChange }: Props) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 hover:border-green-400"
+                className="rounded-lg border border-gray-200 bg-surface px-3 py-1.5 text-xs font-medium text-gray-600 hover:border-green-400"
               >
                 Cambiar imagen
               </button>
@@ -150,7 +150,7 @@ export function FondoEditor({ titulo, descripcion, value, onChange }: Props) {
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="w-full flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 bg-white py-4 text-xs text-gray-500 hover:border-green-400 hover:text-green-700 transition-colors disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 bg-surface py-4 text-xs text-gray-500 hover:border-green-400 hover:text-green-700 transition-colors disabled:opacity-50"
             >
               {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
               {uploading ? 'Subiendo...' : 'Subir imagen de fondo'}

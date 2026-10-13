@@ -33,17 +33,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="admin-root min-h-screen flex items-center justify-center bg-ink">
       <div className="w-full max-w-sm px-6">
         <div className="text-center mb-8">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-600 mx-auto mb-4">
-            <Shirt className="h-8 w-8 text-white" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand mx-auto mb-4">
+            <Shirt className="h-8 w-8 text-bone" />
           </div>
-          <h1 className="text-2xl font-bold text-white">High Hopes</h1>
+          <h1 className="text-2xl font-bold text-bone">High Hopes</h1>
           <p className="text-gray-400 text-sm mt-1">Panel de administración</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 space-y-4 shadow-xl">
+        <form onSubmit={handleSubmit} className="bg-surface rounded-2xl p-6 space-y-4 shadow-xl">
           <Input
             label="Email"
             type="email"

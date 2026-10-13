@@ -243,9 +243,9 @@ export function ProductoForm({ categorias, producto }: Props) {
       )}
 
       {/* ── Panel Asistente IA ─────────────────────────────────── */}
-      <div className="rounded-xl border-2 border-dashed border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-5 space-y-3">
+      <div className="rounded-xl border-2 border-dashed border-green-200 bg-gradient-to-r from-green-50 to-gray-50 p-5 space-y-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-bone">
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
@@ -260,14 +260,14 @@ export function ProductoForm({ categorias, producto }: Props) {
             value={aiUrl}
             onChange={e => setAiUrl(e.target.value)}
             placeholder="https://... URL del producto (opcional)"
-            className="flex-1 rounded-lg border border-green-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="flex-1 rounded-lg border border-green-300 bg-surface px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
             onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); generarConIA() } }}
           />
           <button
             type="button"
             onClick={generarConIA}
             disabled={aiLoading || (!form.nombre.trim() && !aiUrl.trim())}
-            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+            className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-bone hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
           >
             {aiLoading ? (
               <><Loader2 className="h-4 w-4 animate-spin" /> Generando...</>
@@ -296,7 +296,7 @@ export function ProductoForm({ categorias, producto }: Props) {
         {/* Col principal */}
         <div className="lg:col-span-2 space-y-6">
           {/* Datos básicos */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
+          <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-4">
             <h2 className="font-semibold text-gray-900">Datos del producto</h2>
             <Input
               label="Nombre *"
@@ -320,7 +320,7 @@ export function ProductoForm({ categorias, producto }: Props) {
                 value={form.descripcionCorta}
                 onChange={e => setForm(f => ({ ...f, descripcionCorta: e.target.value }))}
                 placeholder="Resumen en 1-2 oraciones para las cards"
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
             <div>
@@ -330,7 +330,7 @@ export function ProductoForm({ categorias, producto }: Props) {
                 onChange={e => setForm(f => ({ ...f, descripcion: e.target.value }))}
                 rows={6}
                 placeholder="Descripción detallada, características técnicas, instrucciones..."
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-y"
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-y"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -344,13 +344,13 @@ export function ProductoForm({ categorias, producto }: Props) {
                 value={form.tags}
                 onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
                 placeholder="grow tent, interior, hidroponia"
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
           </div>
 
           {/* Imágenes */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
+          <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-gray-900">Imágenes</h2>
               <span className="text-xs text-gray-400">{form.imagenes.length}/5</span>
@@ -417,7 +417,7 @@ export function ProductoForm({ categorias, producto }: Props) {
                 value={nuevaImagen}
                 onChange={e => setNuevaImagen(e.target.value)}
                 placeholder="O pegá una URL de imagen"
-                className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                 onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); agregarImagen() } }}
                 disabled={form.imagenes.length >= 5}
               />
@@ -436,12 +436,12 @@ export function ProductoForm({ categorias, producto }: Props) {
                     <button
                       type="button"
                       onClick={() => quitarImagen(i)}
-                      className="absolute top-1 right-1 h-6 w-6 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-1 right-1 h-6 w-6 rounded-full bg-red-500 text-bone flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <Trash2 className="h-3 w-3" />
                     </button>
                     {i === 0 && (
-                      <span className="absolute bottom-1 left-1 text-xs bg-green-700 text-white px-1.5 py-0.5 rounded">Principal</span>
+                      <span className="absolute bottom-1 left-1 text-xs bg-brand text-bone px-1.5 py-0.5 rounded">Principal</span>
                     )}
                   </div>
                 ))}
@@ -451,7 +451,7 @@ export function ProductoForm({ categorias, producto }: Props) {
           </div>
 
           {/* Fondo del producto */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-3">
+          <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-3">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="font-semibold text-gray-900">Fondo del producto</h2>
@@ -466,8 +466,8 @@ export function ProductoForm({ categorias, producto }: Props) {
                   onChange={e => setFondoActivo(e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="relative w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-600 transition-colors">
-                  <div className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${fondoActivo ? 'translate-x-4' : ''}`} />
+                <div className="relative w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-brand transition-colors">
+                  <div className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-surface shadow-sm transition-transform ${fondoActivo ? 'translate-x-4' : ''}`} />
                 </div>
               </label>
             </div>
@@ -481,7 +481,7 @@ export function ProductoForm({ categorias, producto }: Props) {
           </div>
 
           {/* Talles */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-3">
+          <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-3">
             <div>
               <h2 className="font-semibold text-gray-900">Talles</h2>
               <p className="text-xs text-gray-400 mt-0.5">Básicos de remera oversize (King Tex) — tocá para agregar o quitar.</p>
@@ -496,8 +496,8 @@ export function ProductoForm({ categorias, producto }: Props) {
                     onClick={() => toggleTalle(talle)}
                     className={`min-w-11 rounded-lg border px-3.5 py-2 text-sm font-semibold transition-colors ${
                       activo
-                        ? 'border-green-600 bg-green-600 text-white'
-                        : 'border-gray-200 bg-white text-gray-600 hover:border-green-400 hover:text-green-700'
+                        ? 'border-brand bg-brand text-bone'
+                        : 'border-gray-200 bg-surface text-gray-600 hover:border-green-400 hover:text-green-700'
                     }`}
                   >
                     {talle}
@@ -513,7 +513,7 @@ export function ProductoForm({ categorias, producto }: Props) {
           </div>
 
           {/* Variantes */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
+          <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-gray-900">Variantes</h2>
               <Button type="button" variant="outline" size="sm" onClick={agregarVariante}>
@@ -570,7 +570,7 @@ export function ProductoForm({ categorias, producto }: Props) {
         {/* Sidebar del form */}
         <div className="space-y-6">
           {/* Precio y stock */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
+          <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-4">
             <h2 className="font-semibold text-gray-900">Precio y stock</h2>
             <Input label="Precio (ARS) *" type="number" required min="0" step="0.01" value={form.precio} onChange={e => setForm(f => ({ ...f, precio: e.target.value }))} />
             <Input label="Precio anterior (tachado)" type="number" min="0" step="0.01" value={form.precioAnterior} onChange={e => setForm(f => ({ ...f, precioAnterior: e.target.value }))} />
@@ -580,7 +580,7 @@ export function ProductoForm({ categorias, producto }: Props) {
           </div>
 
           {/* Organización */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
+          <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-4">
             <h2 className="font-semibold text-gray-900">Organización</h2>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
@@ -588,7 +588,7 @@ export function ProductoForm({ categorias, producto }: Props) {
                 required
                 value={form.categoriaId}
                 onChange={e => setForm(f => ({ ...f, categoriaId: e.target.value }))}
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 {categorias.map(c => (
                   <option key={c.id} value={c.id}>{c.nombre}</option>
@@ -597,11 +597,11 @@ export function ProductoForm({ categorias, producto }: Props) {
             </div>
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-gray-700">Producto destacado</label>
-              <input type="checkbox" checked={form.destacado} onChange={e => setForm(f => ({ ...f, destacado: e.target.checked }))} className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+              <input type="checkbox" checked={form.destacado} onChange={e => setForm(f => ({ ...f, destacado: e.target.checked }))} className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-accent" />
             </div>
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-gray-700">Activo en tienda</label>
-              <input type="checkbox" checked={form.activo} onChange={e => setForm(f => ({ ...f, activo: e.target.checked }))} className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+              <input type="checkbox" checked={form.activo} onChange={e => setForm(f => ({ ...f, activo: e.target.checked }))} className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-accent" />
             </div>
           </div>
 

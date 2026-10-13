@@ -37,7 +37,7 @@ export default async function AdminDashboard() {
     CONFIRMADO: 'bg-blue-100 text-blue-800',
     PREPARANDO: 'bg-purple-100 text-purple-800',
     ENVIADO: 'bg-indigo-100 text-indigo-800',
-    ENTREGADO: 'bg-green-100 text-green-800',
+    ENTREGADO: 'bg-emerald-100 text-emerald-800',
     CANCELADO: 'bg-red-100 text-red-800',
   }
 
@@ -58,7 +58,7 @@ export default async function AdminDashboard() {
             <Card key={stat.label}>
               <CardContent className="flex items-center gap-4 py-5">
                 <div className={`${stat.color} p-3 rounded-lg`}>
-                  <Icon className="h-5 w-5 text-white" />
+                  <Icon className="h-5 w-5 text-bone" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-gray-900">{stat.value}</div>

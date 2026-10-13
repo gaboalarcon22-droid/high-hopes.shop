@@ -8,11 +8,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = {
-  primary: 'bg-green-700 text-white hover:bg-green-800 focus:ring-green-500',
-  secondary: 'bg-gray-800 text-white hover:bg-gray-900 focus:ring-gray-500',
+  primary: 'bg-brand text-bone hover:bg-brand-dark focus:ring-accent',
+  secondary: 'bg-surface-2 text-bone hover:bg-edge focus:ring-gray-500',
   outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-300',
   ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-300',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+  danger: 'bg-danger text-bone hover:bg-danger-dark focus:ring-red-500',
 }
 
 const sizes = {

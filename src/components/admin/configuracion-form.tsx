@@ -79,7 +79,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
     icono: React.ElementType
     children: React.ReactNode
   }) => (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
+    <div className="rounded-xl border border-gray-200 bg-surface p-6 space-y-4">
       <div className="flex items-center gap-2">
         <Icon className="h-4 w-4 text-green-600" />
         <h2 className="font-semibold text-gray-900 text-sm">{titulo}</h2>
@@ -101,7 +101,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
         <div className="rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-700">{error}</div>
       )}
       {success && (
-        <div className="rounded-lg bg-green-50 border border-green-200 p-4 text-sm text-green-700 flex items-center gap-2">
+        <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-4 text-sm text-emerald-700 flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4" />
           Configuración guardada correctamente.
         </div>
@@ -122,7 +122,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
             onChange={e => set('STORE_DESCRIPTION', e.target.value)}
             rows={2}
             placeholder="Remeras, buzos y estampas personalizadas con mockup 3D en tiempo real..."
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"
           />
         </div>
         <Input
@@ -165,7 +165,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
             onChange={e => set('WHATSAPP_MESSAGE', e.target.value)}
             rows={2}
             placeholder="Hola! Me interesa hacer un pedido..."
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"
           />
         </div>
       </Section>
@@ -178,7 +178,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
             type="checkbox"
             checked={form.BANNER_ACTIVO === 'true'}
             onChange={e => set('BANNER_ACTIVO', e.target.checked ? 'true' : 'false')}
-            className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+            className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-accent"
           />
           <label htmlFor="banner-activo" className="text-sm text-gray-700">Mostrar banner de anuncio en la tienda</label>
         </div>
@@ -233,7 +233,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
         {form.LOGO_URL ? (
           <>
             <div className="flex items-center gap-4">
-              <div className="flex items-center justify-center h-24 px-4 rounded-lg bg-gray-900 border border-gray-200 max-w-[400px]">
+              <div className="flex items-center justify-center h-24 px-4 rounded-lg bg-ink border border-gray-200 max-w-[400px]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={form.LOGO_URL}
@@ -275,8 +275,8 @@ export function ConfiguracionForm({ config: inicial }: Props) {
                     onClick={() => set('LOGO_TAMANO', t.value)}
                     className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
                       parseLogoTamano(form.LOGO_TAMANO) === t.value
-                        ? 'border-green-600 bg-green-600 text-white'
-                        : 'border-gray-200 bg-white text-gray-600 hover:border-green-400'
+                        ? 'border-brand bg-brand text-bone'
+                        : 'border-gray-200 bg-surface text-gray-600 hover:border-green-400'
                     }`}
                   >
                     {t.label}
@@ -337,7 +337,7 @@ export function ConfiguracionForm({ config: inicial }: Props) {
             onChange={e => set('FOOTER_TEXT', e.target.value)}
             rows={2}
             placeholder="Todos los derechos reservados."
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"
           />
         </div>
       </Section>

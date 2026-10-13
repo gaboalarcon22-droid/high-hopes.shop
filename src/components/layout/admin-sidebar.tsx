@@ -38,11 +38,11 @@ export function AdminSidebar({ stockAlerta = 0 }: Props) {
     exact ? pathname === href : pathname.startsWith(href)
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 w-64 flex flex-col bg-gray-900 text-white">
+    <aside className="fixed inset-y-0 left-0 z-30 w-64 flex flex-col bg-surface text-bone border-r border-edge">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-3 px-6 border-b border-gray-700">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600">
-          <Shirt className="h-5 w-5 text-white" />
+      <div className="flex h-16 items-center gap-3 px-6 border-b border-edge">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand">
+          <Shirt className="h-5 w-5 text-bone" />
         </div>
         <div>
           <div className="font-bold text-sm">High Hopes</div>
@@ -62,8 +62,8 @@ export function AdminSidebar({ stockAlerta = 0 }: Props) {
               className={cn(
                 'flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                 active
-                  ? 'bg-green-700 text-white'
-                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-brand text-bone'
+                  : 'text-gray-600 hover:bg-surface-2 hover:text-bone'
               )}
             >
               <span className="flex items-center gap-3">
@@ -71,7 +71,7 @@ export function AdminSidebar({ stockAlerta = 0 }: Props) {
                 {item.label}
               </span>
               {item.badge != null && item.badge > 0 && (
-                <span className="ml-auto flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">
+                <span className="ml-auto flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-bone">
                   {item.badge > 99 ? '99+' : item.badge}
                 </span>
               )}
@@ -81,11 +81,11 @@ export function AdminSidebar({ stockAlerta = 0 }: Props) {
       </nav>
 
       {/* Logout */}
-      <div className="p-3 border-t border-gray-700">
+      <div className="p-3 border-t border-edge">
         <form action="/api/auth/logout" method="POST">
           <button
             type="submit"
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors"
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 hover:bg-surface-2 hover:text-bone transition-colors"
           >
             <LogOut className="h-4 w-4" />
             Cerrar sesión

@@ -28,7 +28,7 @@ export default async function ProductosAdminPage() {
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-surface rounded-xl border border-gray-200 overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-100">
             <tr>

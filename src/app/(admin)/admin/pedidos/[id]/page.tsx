@@ -68,7 +68,7 @@ export default async function PedidoDetallePage({
         <div className="lg:col-span-2 space-y-5">
 
           {/* Items del pedido */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
             <div className="flex items-center gap-2 px-5 py-4 border-b border-gray-100">
               <Package className="h-4 w-4 text-gray-400" />
               <h2 className="font-semibold text-gray-900 text-sm">
@@ -130,7 +130,7 @@ export default async function PedidoDetallePage({
           </div>
 
           {/* Timeline de historial */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
             <div className="flex items-center gap-2 px-5 py-4 border-b border-gray-100">
               <Clock className="h-4 w-4 text-gray-400" />
               <h2 className="font-semibold text-gray-900 text-sm">Historial</h2>
@@ -144,7 +144,7 @@ export default async function PedidoDetallePage({
                     const eInfo = ESTADOS_PEDIDO[h.estado as keyof typeof ESTADOS_PEDIDO]
                     return (
                       <li key={h.id} className="ml-4">
-                        <div className={`absolute -left-1.5 mt-1 h-3 w-3 rounded-full border-2 border-white ${
+                        <div className={`absolute -left-1.5 mt-1 h-3 w-3 rounded-full border-2 border-bone ${
                           idx === pedido.historial.length - 1 ? 'bg-green-500' : 'bg-gray-300'
                         }`} />
                         <div className="flex items-center gap-2 flex-wrap">
@@ -173,7 +173,7 @@ export default async function PedidoDetallePage({
         <div className="space-y-5">
 
           {/* Cliente */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
             <div className="flex items-center gap-2 px-5 py-4 border-b border-gray-100">
               <User className="h-4 w-4 text-gray-400" />
               <h2 className="font-semibold text-gray-900 text-sm">Cliente</h2>
@@ -198,7 +198,7 @@ export default async function PedidoDetallePage({
 
           {/* Dirección */}
           {Object.keys(direccion).length > 0 && (
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+            <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
               <div className="flex items-center gap-2 px-5 py-4 border-b border-gray-100">
                 <MapPin className="h-4 w-4 text-gray-400" />
                 <h2 className="font-semibold text-gray-900 text-sm">Dirección de envío</h2>
@@ -214,7 +214,7 @@ export default async function PedidoDetallePage({
           )}
 
           {/* Pago */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
             <div className="flex items-center gap-2 px-5 py-4 border-b border-gray-100">
               <CreditCard className="h-4 w-4 text-gray-400" />
               <h2 className="font-semibold text-gray-900 text-sm">Pago</h2>
@@ -229,7 +229,7 @@ export default async function PedidoDetallePage({
               <div className="flex justify-between">
                 <span className="text-gray-500">Estado</span>
                 <span className={`font-medium text-xs px-2 py-0.5 rounded-full ${
-                  pedido.estadoPago === 'APROBADO' ? 'bg-green-100 text-green-700' :
+                  pedido.estadoPago === 'APROBADO' ? 'bg-emerald-100 text-emerald-700' :
                   pedido.estadoPago === 'RECHAZADO' ? 'bg-red-100 text-red-700' :
                   'bg-yellow-100 text-yellow-700'
                 }`}>

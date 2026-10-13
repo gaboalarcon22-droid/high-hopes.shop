@@ -67,7 +67,7 @@ export function PedidoNota({ pedidoId, estadoActual }: Props) {
         <select
           value={estado}
           onChange={e => setEstado(e.target.value)}
-          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-surface"
         >
           {ESTADOS.map(e => (
             <option key={e} value={e}>{e}</option>
@@ -82,7 +82,7 @@ export function PedidoNota({ pedidoId, estadoActual }: Props) {
           onChange={e => setNota(e.target.value)}
           rows={3}
           placeholder="Ej: Llamé al cliente y confirmó la entrega para el viernes..."
-          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"
           autoFocus
         />
       </div>

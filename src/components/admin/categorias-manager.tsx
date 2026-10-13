@@ -29,7 +29,7 @@ function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white rounded-xl shadow-xl w-full max-w-md">
+      <div className="relative bg-surface rounded-xl shadow-xl w-full max-w-md">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h3 className="font-semibold text-gray-900">{titulo}</h3>
           <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
@@ -192,7 +192,7 @@ export function CategoriasManager({ categorias: inicial, esAdmin }: Props) {
             value={form.icono}
             onChange={e => setForm(f => ({ ...f, icono: e.target.value }))}
             placeholder="💡"
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-center text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-center text-lg focus:outline-none focus:ring-2 focus:ring-accent"
             maxLength={4}
           />
         </div>
@@ -232,7 +232,7 @@ export function CategoriasManager({ categorias: inicial, esAdmin }: Props) {
           onChange={e => setForm(f => ({ ...f, descripcion: e.target.value }))}
           rows={2}
           placeholder="Breve descripción de la categoría..."
-          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+          className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"
         />
       </div>
       <div className="flex items-center gap-3">
@@ -241,7 +241,7 @@ export function CategoriasManager({ categorias: inicial, esAdmin }: Props) {
           type="checkbox"
           checked={form.activa}
           onChange={e => setForm(f => ({ ...f, activa: e.target.checked }))}
-          className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+          className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-accent"
         />
         <label htmlFor="cat-activa" className="text-sm text-gray-700">Categoría activa en tienda</label>
       </div>
@@ -276,7 +276,7 @@ export function CategoriasManager({ categorias: inicial, esAdmin }: Props) {
         )}
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+      <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
         {categorias.length === 0 ? (
           <div className="px-6 py-12 text-center text-gray-400 text-sm">
             Sin categorías. {esAdmin && <button onClick={abrirCrear} className="text-green-700 hover:underline">Crear la primera</button>}
@@ -290,14 +290,14 @@ export function CategoriasManager({ categorias: inicial, esAdmin }: Props) {
                   <button
                     onClick={() => moverOrden(cat, 'up')}
                     disabled={idx === 0}
-                    className="p-0.5 text-gray-300 hover:text-gray-600 disabled:opacity-30 transition-colors"
+                    className="p-0.5 text-gray-500 hover:text-gray-900 disabled:opacity-30 transition-colors"
                   >
                     <ChevronUp className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => moverOrden(cat, 'down')}
                     disabled={idx === categorias.length - 1}
-                    className="p-0.5 text-gray-300 hover:text-gray-600 disabled:opacity-30 transition-colors"
+                    className="p-0.5 text-gray-500 hover:text-gray-900 disabled:opacity-30 transition-colors"
                   >
                     <ChevronDown className="h-4 w-4" />
                   </button>
@@ -373,7 +373,7 @@ export function CategoriasManager({ categorias: inicial, esAdmin }: Props) {
             <button
               onClick={() => eliminar(confirmDelete)}
               disabled={loading}
-              className="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+              className="flex-1 rounded-lg bg-danger px-4 py-2 text-sm font-medium text-bone hover:bg-danger-dark disabled:opacity-50 transition-colors"
             >
               {loading ? 'Eliminando...' : 'Sí, eliminar'}
             </button>

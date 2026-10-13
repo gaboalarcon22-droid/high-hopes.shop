@@ -21,11 +21,11 @@ export function ProductoToggle({ id, activo: initialActivo }: Props) {
     <button
       onClick={toggle}
       disabled={pending}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1
-        ${activo ? 'bg-green-600' : 'bg-gray-200'} ${pending ? 'opacity-50' : ''}`}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1
+        ${activo ? 'bg-brand' : 'bg-gray-200'} ${pending ? 'opacity-50' : ''}`}
     >
       <span
-        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm
+        className={`inline-block h-4 w-4 transform rounded-full bg-surface transition-transform shadow-sm
           ${activo ? 'translate-x-6' : 'translate-x-1'}`}
       />
     </button>

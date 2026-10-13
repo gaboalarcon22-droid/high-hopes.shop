@@ -30,7 +30,7 @@ export function PedidoEstado({ pedidoId, estadoActual }: Props) {
       value={estado}
       onChange={e => cambiar(e.target.value)}
       disabled={pending}
-      className={`rounded-full px-3 py-1 text-xs font-medium border-0 focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer ${info?.color ?? 'bg-gray-100 text-gray-700'}`}
+      className={`rounded-full px-3 py-1 text-xs font-medium border-0 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer ${info?.color ?? 'bg-gray-100 text-gray-700'}`}
     >
       {ESTADOS.map(e => (
         <option key={e} value={e}>{ESTADOS_PEDIDO[e].label}</option>

@@ -1,12 +1,13 @@
 .studio {
-  --bg: #0c0f12;
-  --panel: #161b21;
-  --panel-2: #1d242c;
-  --line: #2a323b;
-  --text: #e8edf2;
-  --muted: #93a0ad;
-  --accent: #c6ff1a;
-  --accent-2: #d9ff5c;
+  /* Paleta A: tinta + hueso, rojo del logo como acento */
+  --bg: #0c0c0c;
+  --panel: #161514;
+  --panel-2: #1e1c1a;
+  --line: #2e2b28;
+  --text: #f2ede4;
+  --muted: #a39d93;
+  --accent: #c4262e;      /* relleno de botones y chips activos (texto blanco 5,7:1) */
+  --accent-2: #e84545;    /* bordes, enlaces y foco legibles sobre oscuro */
   --ok: #3fbf6f;
   --warn: #e0a52b;
   --error: #e0594b;
@@ -61,7 +62,7 @@
   border: 2px dashed var(--line);
   border-radius: var(--radius);
   padding: 22px 34px;
-  background: rgba(12, 15, 18, 0.4);
+  background: rgba(12, 12, 12, 0.4);
 }
 .dropOverlay strong { font-size: 15px; }
 .dropOverlay span { font-size: 12px; color: var(--muted); }
@@ -120,7 +121,7 @@
 }
 .btn:hover { border-color: var(--accent-2); }
 .btnPrimary { background: var(--accent); border-color: var(--accent); }
-.btnPrimary:hover { background: var(--accent-2); }
+.btnPrimary:hover { background: #a81f27; border-color: #a81f27; }
 .btnFull { width: 100%; margin-top: 12px; }
 .btnSmall { padding: 6px 10px; font-size: 12px; }
 .btnGhost { background: transparent; }
@@ -253,7 +254,7 @@
   transform: translateX(-50%);
   display: flex;
   gap: 6px;
-  background: rgba(22, 27, 33, 0.8);
+  background: rgba(22, 21, 20, 0.8);
   padding: 5px;
   border-radius: 22px;
   border: 1px solid var(--line);
@@ -275,7 +276,7 @@
   top: 14px;
   left: 14px;
   border: 1px solid var(--line);
-  background: rgba(22, 27, 33, 0.85);
+  background: rgba(22, 21, 20, 0.85);
   color: var(--text);
   padding: 8px 14px;
   border-radius: 22px;

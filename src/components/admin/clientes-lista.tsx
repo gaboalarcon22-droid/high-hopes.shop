@@ -59,12 +59,12 @@ export function ClientesLista({ clientes }: Props) {
           value={busqueda}
           onChange={e => setBusqueda(e.target.value)}
           placeholder="Buscar por nombre, email, empresa..."
-          className="block w-full pl-9 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+          className="block w-full pl-9 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-surface"
         />
       </div>
 
       {/* Tabla */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-surface rounded-xl border border-gray-200 overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-100">
             <tr>

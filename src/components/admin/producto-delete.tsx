@@ -47,7 +47,7 @@ export function ProductoDelete({ id, nombre, tienePedidos }: Props) {
       {confirmando && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/40" onClick={() => setConfirmando(false)} />
-          <div className="relative bg-white rounded-xl shadow-xl w-full max-w-md">
+          <div className="relative bg-surface rounded-xl shadow-xl w-full max-w-md">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h3 className="font-semibold text-gray-900">¿Eliminar producto?</h3>
               <button onClick={() => setConfirmando(false)} className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
@@ -68,7 +68,7 @@ export function ProductoDelete({ id, nombre, tienePedidos }: Props) {
                 <button
                   onClick={eliminar}
                   disabled={loading}
-                  className="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+                  className="flex-1 rounded-lg bg-danger px-4 py-2 text-sm font-medium text-bone hover:bg-danger-dark disabled:opacity-50 transition-colors"
                 >
                   {loading ? 'Eliminando...' : 'Sí, eliminar'}
                 </button>

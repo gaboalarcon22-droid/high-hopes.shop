@@ -32,7 +32,7 @@ export default async function StockPage() {
           {icono}
           {titulo} ({items.length})
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+        <div className="rounded-xl border border-gray-200 bg-surface overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
@@ -88,9 +88,9 @@ export default async function StockPage() {
       </div>
 
       {agotados.length === 0 && criticos.length === 0 ? (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-8 text-center">
-          <p className="text-green-700 font-medium">✅ Todo el stock está en niveles normales</p>
-          <p className="text-green-600 text-sm mt-1">No hay productos agotados ni en nivel crítico.</p>
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-8 text-center">
+          <p className="text-emerald-700 font-medium">✅ Todo el stock está en niveles normales</p>
+          <p className="text-emerald-600 text-sm mt-1">No hay productos agotados ni en nivel crítico.</p>
         </div>
       ) : (
         <>

@@ -11,8 +11,8 @@ export default async function GraciasPage({ searchParams }: Props) {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-20 text-center">
-      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-100 mx-auto mb-6">
-        <CheckCircle className="h-10 w-10 text-green-600" />
+      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 mx-auto mb-6">
+        <CheckCircle className="h-10 w-10 text-emerald-600" />
       </div>
       <h1 className="text-2xl font-bold text-gray-900 mb-3">
         ¡Pedido recibido!
